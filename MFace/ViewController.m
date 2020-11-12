@@ -45,13 +45,31 @@
     
     ImageProcess *p = [ImageProcess new];
     //testImageView.image=[p imageBlackToTransparent:testImageView.image:255:128:128];
-    CGSize smallsize = CGSizeMake(100.0f, 200.0f);
-    image=[p scaleToSize:image:smallsize];
-    self.image_1.image = [p imageBlackToTransparent:image:255:128:128];
+    CGSize smallsize = CGSizeMake(200.0f, 200.0f);
+    //image=[p scaleToSize:image:smallsize];
+    //self.image_1.image = [p imageBlackToTransparent:image:255:128:128];
+    //self.image_1.image=image;
+    float* bias =(float*)malloc(1);
+    float weightsarray[121];
+    for(int i = 0;i<121;i++)
+    {
+        weightsarray[i]=1.0f/121.0f;
+    }
+    printf("%f\n",weightsarray[0]);
+    printf("%f\n",weightsarray[1]);
+    printf("%f\n",weightsarray[2]);
+    printf("%f\n",weightsarray[3]);
+    printf("%f\n",weightsarray[4]);
+    printf("%f\n",weightsarray[5]);
+    printf("%f\n",weightsarray[6]);
     
-    
-    
-    
+    memset(bias,0.0,1*sizeof(*bias));
+    int padding=0;
+    int stride=0;
+    int kernel_size=11;
+    //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
+    image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride];
+    self.image_1.image=image;
     self.status_text.text=@"已处理完,可以继续处理";
 }
 
