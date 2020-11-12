@@ -12,6 +12,7 @@
 
 //@interface ViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UITextView *v_textview;
 @property (weak, nonatomic) IBOutlet UITextField *status_text;
 
 @property (weak, nonatomic) IBOutlet UIButton *useModel;
@@ -30,6 +31,7 @@
 - (void)calulateImageFileSize:(UIImage *)image;
 // camera 拍照
 - (void)takePhoto;
+@property (weak, nonatomic) IBOutlet UIImageView *v_imageview;
 // 从相册读取
 - (void)selectPhoto;
 @end
@@ -37,8 +39,17 @@
 @implementation ViewController
 
 - (IBAction)useModel:(id)sender {
+    
+    self.v_textview.layoutManager.allowsNonContiguousLayout = false;
+    //let allStrCount = self.v_textview.text.characters.count; //获取总文字个数
+    //self.v_textview.scrollRangeToVisible(NSMakeRange(0, allStrCount));//把光标位置移到最后
+    //使用可放在你的自定义方法或者UITextViewDelegate方法里面使用，比如文本变更时候 - textViewDidChange
+    
+    
     NSLog(@"use model to process image");
     self.status_text.text=@"正在使用模型处理图片";
+    self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n正在处理..."];
+
     UIImage *image = self.image_1.image;
     [self calulateImageFileSize:image];
     
@@ -63,7 +74,10 @@
     int out_channel=32;
     printf("%f\n",weightsarray[0]);
     printf("%f\n",weightsarray[6]);
+    self.v_textview.text = [self.v_textview.text stringByAppendingString:[NSString stringWithFormat:@"\n weightsarray[0]=%f",weightsarray[0]]];
+    self.v_textview.text = [self.v_textview.text stringByAppendingString:[NSString stringWithFormat:@"\n weightsarray[6]=%f",weightsarray[6]]];
     
+
     memset(bias,0.0,1*sizeof(*bias));
     int padding=0;
     int stride=0;
@@ -74,6 +88,8 @@
     //[self useModel setBackgroundImage:slef.image_1.image];
     [self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];
     self.status_text.text=@"已处理完,可以继续处理";
+    self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n已经处理完。"];
+
 }
 
 - (void)takePhoto{
@@ -127,11 +143,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-        
+        /*
         UIButton *btn=[UIButton new];
         [btn setTitle:@"start test" forState:UIControlStateNormal];
         [btn setBackgroundColor:UIColor.redColor];
-
         [btn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
         btn.translatesAutoresizingMaskIntoConstraints=false;
         [self.view addSubview:btn];
@@ -141,7 +156,10 @@
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:146]];
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:46]];
         [btn addTarget:nil action:@selector(btnclick) forControlEvents:UIControlEventTouchUpInside];
-    
+        */
+        self.v_textview.backgroundColor = [UIColor grayColor];
+        self.v_imageview.backgroundColor = [UIColor grayColor];
+
 }
 
 - (BOOL) isCameraAvailable{
