@@ -52,7 +52,7 @@
     
     
     
-    self.status_text.text=@"已处理完";
+    self.status_text.text=@"已处理完,可以继续处理";
 }
 
 - (void)takePhoto{
