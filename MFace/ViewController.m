@@ -71,7 +71,8 @@
     
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
     self.image_1.image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
-    
+    //[self useModel setBackgroundImage:slef.image_1.image];
+    [self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];
     self.status_text.text=@"已处理完,可以继续处理";
 }
 
@@ -82,6 +83,8 @@
     imagePickerController.delegate  = self;
     imagePickerController.allowsEditing=YES;
     [self presentViewController:imagePickerController animated:YES completion:nil];
+    
+    
 }
 
 - (void)selectPhoto{
@@ -105,6 +108,7 @@
     NSLog(@"didCance.@%s,%d,%s",__FILE__,__LINE__,__func__);
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
+
 - (void)calulateImageFileSize:(UIImage *)image {
     
     NSData *data = UIImagePNGRepresentation(image);
@@ -213,7 +217,8 @@
     //拿到图片，可以进行任意处理。
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     self.image_1.image=image;
-    
+    [self.button_getimage setBackgroundImage:image forState:UIControlStateNormal];
+    [self.get_image_button setBackgroundImage:image forState:UIControlStateNormal];
     
     
     NSString *urlStr =[NSString stringWithFormat:@"%@", [info objectForKey:UIImagePickerControllerMediaURL]];
