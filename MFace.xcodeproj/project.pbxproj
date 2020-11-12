@@ -14,6 +14,8 @@
 		67631F10255BA68F000E36F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67631F0F255BA68F000E36F9 /* Assets.xcassets */; };
 		67631F13255BA68F000E36F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67631F11255BA68F000E36F9 /* LaunchScreen.storyboard */; };
 		67631F16255BA68F000E36F9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F15255BA68F000E36F9 /* main.m */; };
+		67631F53255C0C98000E36F9 /* ImageProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F52255C0C98000E36F9 /* ImageProcess.m */; };
+		67631F57255C0D27000E36F9 /* utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F56255C0D27000E36F9 /* utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,10 @@
 		67631F12255BA68F000E36F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		67631F14255BA68F000E36F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67631F15255BA68F000E36F9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		67631F51255C0C98000E36F9 /* ImageProcess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageProcess.h; sourceTree = "<group>"; };
+		67631F52255C0C98000E36F9 /* ImageProcess.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageProcess.m; sourceTree = "<group>"; };
+		67631F55255C0D27000E36F9 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		67631F56255C0D27000E36F9 /* utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = utils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +73,10 @@
 				67631F07255BA68D000E36F9 /* SceneDelegate.m */,
 				67631F09255BA68D000E36F9 /* ViewController.h */,
 				67631F0A255BA68D000E36F9 /* ViewController.m */,
+				67631F51255C0C98000E36F9 /* ImageProcess.h */,
+				67631F52255C0C98000E36F9 /* ImageProcess.m */,
+				67631F55255C0D27000E36F9 /* utils.h */,
+				67631F56255C0D27000E36F9 /* utils.m */,
 				67631F0C255BA68D000E36F9 /* Main.storyboard */,
 				67631F0F255BA68F000E36F9 /* Assets.xcassets */,
 				67631F11255BA68F000E36F9 /* LaunchScreen.storyboard */,
@@ -145,8 +155,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67631F53255C0C98000E36F9 /* ImageProcess.m in Sources */,
 				67631F0B255BA68D000E36F9 /* ViewController.m in Sources */,
 				67631F05255BA68D000E36F9 /* AppDelegate.m in Sources */,
+				67631F57255C0D27000E36F9 /* utils.m in Sources */,
 				67631F16255BA68F000E36F9 /* main.m in Sources */,
 				67631F08255BA68D000E36F9 /* SceneDelegate.m in Sources */,
 			);
@@ -294,13 +306,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WUY2UVM5F8;
 				INFOPLIST_FILE = MFace/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = kkb.MFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -312,13 +325,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WUY2UVM5F8;
 				INFOPLIST_FILE = MFace/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = kkb.MFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
