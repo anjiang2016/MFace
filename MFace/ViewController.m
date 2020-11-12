@@ -42,34 +42,36 @@
     UIImage *image = self.image_1.image;
     [self calulateImageFileSize:image];
     
-    
     ImageProcess *p = [ImageProcess new];
     //testImageView.image=[p imageBlackToTransparent:testImageView.image:255:128:128];
-    CGSize smallsize = CGSizeMake(200.0f, 200.0f);
-    //image=[p scaleToSize:image:smallsize];
+    CGSize smallsize = CGSizeMake(100.0f, 100.0f);
+    image=[p scaleToSize:image:smallsize];
     //self.image_1.image = [p imageBlackToTransparent:image:255:128:128];
     //self.image_1.image=image;
     float* bias =(float*)malloc(1);
-    float weightsarray[121];
-    for(int i = 0;i<121;i++)
+    float weightsarray[3*3*3*4];
+    for(int i = 0;i<3*3*3*4;i++)
     {
-        weightsarray[i]=1.0f/121.0f;
+        //手动设定中值滤波
+        //weightsarray[i]=1.0f/(3.0f*3.0f*3.0f);
+
+        //随机数
+        float tmp=(float)(arc4random()%101)/50.0;
+        weightsarray[i]= (tmp-1.0)/(3.0f*3.0f);
     }
+    int in_channel=3;
+    int out_channel=32;
     printf("%f\n",weightsarray[0]);
-    printf("%f\n",weightsarray[1]);
-    printf("%f\n",weightsarray[2]);
-    printf("%f\n",weightsarray[3]);
-    printf("%f\n",weightsarray[4]);
-    printf("%f\n",weightsarray[5]);
     printf("%f\n",weightsarray[6]);
     
     memset(bias,0.0,1*sizeof(*bias));
     int padding=0;
     int stride=0;
-    int kernel_size=11;
+    int kernel_size=3;
+    
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
-    image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride];
-    self.image_1.image=image;
+    self.image_1.image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
+    
     self.status_text.text=@"已处理完,可以继续处理";
 }
 
@@ -89,7 +91,6 @@
     imagePickerController.allowsEditing= YES;
     [self presentViewController:imagePickerController animated:YES completion:nil];
 }
-
 
 
 - (IBAction)button_getimage:(id)sender {
@@ -137,7 +138,6 @@
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:46]];
         [btn addTarget:nil action:@selector(btnclick) forControlEvents:UIControlEventTouchUpInside];
     
-
 }
 
 - (BOOL) isCameraAvailable{

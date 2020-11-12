@@ -63,12 +63,38 @@
         *fptr=(gray/255.0f);
         //0.30R+ 0.59G + 0.11B
         // rgb2gray
-        
-        
-        
         //fptr[i] = (float)ptr[3];// use red channel to be the pixel's float value
     }
 }
+
+
+- (void) U2F_3:(uint32_t*)rgbImageBuf :(int)pixelNum :(int)in_channel :(float*)rgbFloatBuf{
+    uint32_t* pCurPtr = rgbImageBuf;
+    float* fptr = rgbFloatBuf;
+    for (int i = 0; i < pixelNum; i++, pCurPtr++){
+        // 改成下面的代码，会将图片转成想要的颜色
+        uint8_t* ptr = (uint8_t*)pCurPtr;
+        //ptr[3] -=0; //0~255 red
+        //ptr[2] -=ptr[2];//green
+        //ptr[1] -=ptr[1];//blue;
+        //ptr[0] = 255;
+        float Rvalue = (float)ptr[3];
+        float Gvalue = (float)ptr[2];
+        float Bvalue = (float)ptr[1];
+        float gray= 0.30*Rvalue+0.59*Gvalue+0.11*Bvalue;
+        //memset(fptr,gray,sizeof(float));
+        fptr[i]=(Rvalue/255.0f);
+        fptr[i+pixelNum]=(Gvalue/255.0f);
+        fptr[i+pixelNum*2]=(Bvalue/255.0f);
+        //printf("i=%d,%f,%f,%f\n",i,fptr[i],fptr[i+pixelNum],fptr[i+pixelNum*2]);
+        
+        //0.30R+ 0.59G + 0.11B
+        // rgb2gray
+        //fptr[i] = (float)ptr[3];// use red channel to be the pixel's float value
+    }
+}
+
+
 - (void) F2U:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf{
     uint32_t* pCurPtr = rgbImageBuf;
     float* fptr = rgbFloatBuf;
@@ -86,8 +112,32 @@
     }
 }
 
+- (void) F2U_3:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf{
+    uint32_t* pCurPtr = rgbImageBuf;
+    float* fptr = rgbFloatBuf;
+    for (int i = 0; i < pixelNum; i++, pCurPtr++,fptr++){
+        // 改成下面的代码，会将图片转成想要的颜色
+        uint8_t* ptr = (uint8_t*)pCurPtr;
+        uint8_t temp=0;
+        float rvalue = fptr[0];
+        float gvalue = fptr[0+pixelNum];
+        float bvalue = fptr[0+2*pixelNum];
+        
+        temp = (uint8_t)(rvalue*255.0f);
+        ptr[3] =temp; //0~255 red
+        
+        temp = (uint8_t)(gvalue*255.0f);
+        ptr[2] =temp;//green
+        
+        temp = (uint8_t)(bvalue*255.0f);
+        ptr[1] =temp;//blue;
+        ptr[0] = 255;
+    }
+}
 
-- (void) conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride{
+
+
+- (void) conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
     
     uint32_t* pCurPtr = rgbImageBuf;
     int pixNumber = width*height;
@@ -97,7 +147,7 @@
     [self U2F:rgbImageBuf:pixNumber:rgbFloatBuf];
     [self U2F:res:pixNumber:resFloat];
     
-    [self conv2:(float*)weightsarray:(float *)bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height];
+    [self conv2:(float*)weightsarray:(float *)bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
     [self F2U:res:pixNumber:resFloat];
     /*
     for (int i = 0; i < pixelNum; i++, pCurPtr++){
@@ -112,7 +162,7 @@
 }
 
 
-- (void) conv2:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH
+- (void) conv2:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
 {
     float temp;
     int radus = (int)((float)filterW/2.0f);
@@ -134,9 +184,6 @@
                     }
                 }
             }
-            //res[i][j] = temp;
-            //res[]=temp;
-            //res[i*arrW+j]=arr[i*arrW+j];
             if((i>-1 && i<arrH)&&(j>-1 && j<arrW))
             {
                 res[i*arrW+j]=temp;
@@ -147,7 +194,96 @@
 
 }
 
-- (UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride{
+// filter : k,k,in_c,out_c
+// arr: w,h,in_c
+// res: w,h out_c
+
+- (void) conv4d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
+    
+    uint32_t* pCurPtr = rgbImageBuf;
+    int pixNumber = width*height;
+    float* rgbFloatBuf = (float*)malloc(width*height*in_channel*sizeof(float));
+    float* resFloat = (float*)malloc((width+kernel_size)*(height+kernel_size)*(out_channel)*sizeof(float));
+    
+    [self U2F_3:rgbImageBuf:width*height:in_channel:rgbFloatBuf];
+    //[self U2F:res:width*height*out_channel:resFloat];
+    
+    [self conv4:(float*)weightsarray:(float *)bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
+    [self F2U_3:res:pixNumber:resFloat];
+    /*
+    for (int i = 0; i < pixelNum; i++, pCurPtr++){
+            // 改成下面的代码，会将图片转成想要的颜色
+            uint8_t* ptr = (uint8_t*)pCurPtr;
+            ptr[3] -=0; //0~255 red
+            ptr[2] -=ptr[2];//green
+            ptr[1] -=ptr[1];//blue;
+            ptr[0] = 255;
+    }
+    */
+}
+- (void) display:(float*)array :(int)num{
+    for(int i=0;i<num;i++)
+    {
+        printf("%f,",array[i]);
+    }
+}
+- (void) conv4:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
+{
+    float temp;
+    int radus = (int)((float)filterW/2.0f);
+    
+    //[self display:filter:3*3*3*4];
+    //[self display:arr:3*25];
+    //[self display:arr:3*25];
+    
+    for (int oc=0;oc<out_channel;oc++)
+    {
+        // do one channel convolution
+        for (int i=-radus; i<arrH+radus; i++)
+        {
+            for (int j=-radus; j<arrW+radus; j++)
+            {
+                temp=0;
+                for(int ic=0;ic<in_channel;ic++)
+                {
+                    
+                    for (int m=0; m<filterH; m++)
+                    {
+                        for (int n=0; n<filterW; n++)
+                        {
+                            
+                            if ((i+m-radus)>=0 && (i+m-radus)<arrH && (j+n-radus)>=0 && (j+n-radus)<arrW)
+                            {
+                                //temp += filter[m][n]*arr[i-m][j-n];
+                                temp += filter[(oc*in_channel+ic)*filterW*filterH+m*filterW+n]*arr[ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus)];
+                                float weight=filter[(oc*in_channel+ic)*filterW*filterH+m*filterW+n];
+                                int index =ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus);
+                                float pix=arr[ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus)];
+                                int index_weight=(oc*in_channel+ic)*filterW*filterH+m*filterW+n;
+                                //printf("index=%d,weight_index=%d\n",index,index_weight);
+                                //filter[0][0];
+                            }
+                        }
+                    }
+                }
+                if((i>-1 && i<arrH)&&(j>-1 && j<arrW))
+                {
+                    res[oc*arrW*arrH+i*arrW+j]=temp;
+                    //printf("[%d,%d,%d]=%f\n",i,j,oc,temp);
+                }
+            }
+                //printf("i=%d\n",i);
+        }
+            // done
+            
+    }
+    
+    
+    
+
+}
+
+- (UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
     const int imageWidth = image.size.width;
     const int imageHeight = image.size.height;
     size_t      bytesPerRow = imageWidth * 4;
@@ -163,7 +299,14 @@
     int pixelNum = imageWidth * imageHeight;
     //[self setBlue:rgbImageBuf:pixelNum];
     
-    [self conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride];
+    
+    //二维卷积，输入1通道，输出1通道
+    //[self conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
+    
+    // 4维度，输入3通道，输出4通道
+    [self conv4d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
+    
+    
     
     
     // change the uint_32 array to UIImage for show
