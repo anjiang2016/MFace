@@ -9,9 +9,12 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 #import "ImageProcess.h"
+#import "FileOperate.h"
 
 //@interface ViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *button_file;
+
 @property (weak, nonatomic) IBOutlet UITextView *v_textview;
 @property (weak, nonatomic) IBOutlet UITextField *status_text;
 
@@ -38,6 +41,48 @@
 
 @implementation ViewController
 
+- (IBAction)action_file:(id)sender {
+    //创建NSFileManager实例
+    NSFileManager *fm = [NSFileManager defaultManager];
+    //获取当前目录
+    NSString *path = [fm currentDirectoryPath];
+    //self.status_text.text=@"/";
+    NSLog(@"staus_text = %@", self.status_text.text);
+    
+    NSArray *fileArray1 = [[NSArray alloc]init];
+    fileArray1 = [fm contentsOfDirectoryAtPath:self.status_text.text error:nil];
+    if([fileArray1 count]>0){
+        NSLog(@"fileArray1 = %@", fileArray1);
+        self.v_textview.text = [self.v_textview.text stringByAppendingString:[fileArray1 componentsJoinedByString:@"\n,"]];
+    }
+    
+    NSDirectoryEnumerator *directoryEnum = [fm enumeratorAtPath:self.status_text.text];
+    NSString *filePath;
+
+    
+    //JSON文件的路径
+    NSString *path1 = [[NSBundle mainBundle] pathForResource:@"w2.pth" ofType:nil];
+        NSLog(@"path1 = %@", path1);
+    
+    NSArray *mainpaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDir = [mainpaths objectAtIndex:0];
+    NSArray *fileList = [fm contentsOfDirectoryAtPath:documentsDir error:nil];
+    if([fileList count]>0){
+        NSLog(@"fileList = %@", fileList);
+    }
+    
+    while (filePath = [directoryEnum nextObject]) {
+        //NSLog(@"filePath = %@", filePath);
+        if([filePath rangeOfString:@"w2.pth"].location !=NSNotFound){
+            NSLog(@"filePath = %@", filePath);
+            
+        }
+    }
+     
+    
+}
+
+// 按钮 使用模型
 - (IBAction)useModel:(id)sender {
     
     self.v_textview.layoutManager.allowsNonContiguousLayout = false;
@@ -47,7 +92,6 @@
     
     
     NSLog(@"use model to process image");
-    self.status_text.text=@"正在使用模型处理图片";
     self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n正在处理..."];
 
     UIImage *image = self.image_1.image;
@@ -87,11 +131,11 @@
     self.image_1.image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
     //[self useModel setBackgroundImage:slef.image_1.image];
     [self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];
-    self.status_text.text=@"已处理完,可以继续处理";
     self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n已经处理完。"];
-
 }
 
+
+// 功能：
 - (void)takePhoto{
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc]init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -100,9 +144,10 @@
     imagePickerController.allowsEditing=YES;
     [self presentViewController:imagePickerController animated:YES completion:nil];
     
-    
 }
 
+
+// 功能：读取相册
 - (void)selectPhoto{
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc]init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
@@ -143,6 +188,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+        //纯用代码写出一个控件
         /*
         UIButton *btn=[UIButton new];
         [btn setTitle:@"start test" forState:UIControlStateNormal];
@@ -157,15 +203,35 @@
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:btn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:46]];
         [btn addTarget:nil action:@selector(btnclick) forControlEvents:UIControlEventTouchUpInside];
         */
-        self.v_textview.backgroundColor = [UIColor grayColor];
-        self.v_imageview.backgroundColor = [UIColor grayColor];
-
+        // 设置主页控件的背景颜色
+    self.v_textview.backgroundColor = [UIColor grayColor];
+    self.v_imageview.backgroundColor = [UIColor grayColor];
+    
+    /*
+    float farray[2];
+    //float fff={0.2,0.3};
+    //float bias = malloc(sizeof(float));
+    //NSString* newstring=@"1.1,2.2";
+    NSString* newstring=@"-7.8715e-02, -1.4323e-01, -8.0702e-02";
+    float tmp = [newstring floatValue];
+    NSArray  *array = [newstring componentsSeparatedByString:@","];
+    NSLog(@"array=%@",array);
+    NSLog(@"array[0]=%@",[array objectAtIndex:0]);
+    for(int i=0;i<[array count];i++)
+    {
+        farray[i]=[[array objectAtIndex:i] floatValue];
+        NSLog(@"farray[%d]=%f",i,farray[i]);
+    }
+    
+    */
 }
 
 - (BOOL) isCameraAvailable{
     return [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
 }
 
+
+// 功能： 录像视频
 -(void)btnclick
 {
     printf("button click\n");

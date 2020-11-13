@@ -39,14 +39,8 @@
                                     <action selector="useModel:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8mI-oY-flS"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nwe-Ge-K76">
-                                <rect key="frame" x="16" y="776" width="1060" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" text="显示计算过程" translatesAutoresizingMaskIntoConstraints="NO" id="8Fd-X2-fFL">
-                                <rect key="frame" x="734" y="34" width="326" height="600"/>
+                                <rect key="frame" x="734" y="71" width="326" height="563"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -66,11 +60,27 @@
                                     <action selector="button_getAlbum:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wc0-FE-x7G"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaj-Wk-fXG">
+                                <rect key="frame" x="556" y="677" width="204" height="91"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="File"/>
+                                <connections>
+                                    <action selector="action_file:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vfw-yt-eZq"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nwe-Ge-K76">
+                                <rect key="frame" x="734" y="34" width="326" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="button_file" destination="iaj-Wk-fXG" id="Zw0-a9-ct4"/>
                         <outlet property="button_getimage" destination="dbR-ri-S9K" id="Bcx-nE-byV"/>
                         <outlet property="get_image_button" destination="anU-dt-kKh" id="zC1-VU-GBw"/>
                         <outlet property="image_1" destination="Une-XH-jW2" id="i0M-vy-wH9"/>

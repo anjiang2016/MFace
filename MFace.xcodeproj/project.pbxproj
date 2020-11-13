@@ -16,6 +16,8 @@
 		67631F16255BA68F000E36F9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F15255BA68F000E36F9 /* main.m */; };
 		67631F53255C0C98000E36F9 /* ImageProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F52255C0C98000E36F9 /* ImageProcess.m */; };
 		67631F57255C0D27000E36F9 /* utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F56255C0D27000E36F9 /* utils.m */; };
+		67853C08255E5D40003DEA3A /* FileOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C07255E5D40003DEA3A /* FileOperate.m */; };
+		67853C0C255E8B10003DEA3A /* model.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C0B255E8B10003DEA3A /* model.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,10 @@
 		67631F52255C0C98000E36F9 /* ImageProcess.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageProcess.m; sourceTree = "<group>"; };
 		67631F55255C0D27000E36F9 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		67631F56255C0D27000E36F9 /* utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = utils.m; sourceTree = "<group>"; };
+		67853C06255E5D40003DEA3A /* FileOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileOperate.h; sourceTree = "<group>"; };
+		67853C07255E5D40003DEA3A /* FileOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileOperate.m; sourceTree = "<group>"; };
+		67853C0A255E8B10003DEA3A /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
+		67853C0B255E8B10003DEA3A /* model.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = model.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +79,11 @@
 				67631F07255BA68D000E36F9 /* SceneDelegate.m */,
 				67631F09255BA68D000E36F9 /* ViewController.h */,
 				67631F0A255BA68D000E36F9 /* ViewController.m */,
+				67853C0A255E8B10003DEA3A /* model.h */,
+				67853C0B255E8B10003DEA3A /* model.m */,
 				67631F51255C0C98000E36F9 /* ImageProcess.h */,
+				67853C06255E5D40003DEA3A /* FileOperate.h */,
+				67853C07255E5D40003DEA3A /* FileOperate.m */,
 				67631F52255C0C98000E36F9 /* ImageProcess.m */,
 				67631F55255C0D27000E36F9 /* utils.h */,
 				67631F56255C0D27000E36F9 /* utils.m */,
@@ -158,6 +168,8 @@
 				67631F53255C0C98000E36F9 /* ImageProcess.m in Sources */,
 				67631F0B255BA68D000E36F9 /* ViewController.m in Sources */,
 				67631F05255BA68D000E36F9 /* AppDelegate.m in Sources */,
+				67853C0C255E8B10003DEA3A /* model.m in Sources */,
+				67853C08255E5D40003DEA3A /* FileOperate.m in Sources */,
 				67631F57255C0D27000E36F9 /* utils.m in Sources */,
 				67631F16255BA68F000E36F9 /* main.m in Sources */,
 				67631F08255BA68D000E36F9 /* SceneDelegate.m in Sources */,
