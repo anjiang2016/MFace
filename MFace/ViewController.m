@@ -96,7 +96,7 @@
     
     ImageProcess *p = [ImageProcess new];
     //testImageView.image=[p imageBlackToTransparent:testImageView.image:255:128:128];
-    CGSize smallsize = CGSizeMake(20, 20);
+    CGSize smallsize = CGSizeMake(200, 200);
     image=[p scaleToSize:image:smallsize];
     //self.image_1.image = [p imageBlackToTransparent:image:255:128:128];
     //self.image_1.image=image;
@@ -131,6 +131,7 @@
     self.image_1.image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
     //self useModel setBackgroundImage:slef.image_1.image];
     [self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];
+    [self insert2TextView:[NSString stringWithFormat:@"\nfeature map:(%f,%f)",self.image_1.image.size.width,self.image_1.image.size.height]];
     self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n已经处理完。"];
 }
 

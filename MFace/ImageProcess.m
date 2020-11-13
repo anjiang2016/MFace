@@ -209,11 +209,18 @@
 // filter : k,k,in_c,out_c
 // arr: w,h,in_c
 // res: w,h out_c
-- (void) conv4d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
+- (void) convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
     uint32_t pixNumber = (uint32_t)width*(uint32_t)height;
     float* rgbFloatBuf = (float*)malloc(width*height*in_channel*sizeof(float));
-    float* resFloat = (float*)malloc((width+kernel_size)*(height+kernel_size)*(out_channel)*sizeof(float));
-    float* poolingFloat = (float*)malloc((width+kernel_size)*(height+kernel_size)*(out_channel)*sizeof(float));
+    float* resFloat = (float*)malloc((width)*(height)*(out_channel)*sizeof(float));
+    float* poolingFloat = (float*)malloc((width/2)*(height/2)*(out_channel)*sizeof(float));
+    float* resFloat_2 = (float*)malloc((width/2)*(height/2)*(out_channel)*sizeof(float));
+    float* poolingFloat_2 = (float*)malloc((width/4)*(height/4)*(out_channel)*sizeof(float));
+    float* resFloat_3 = (float*)malloc((width/4)*(height/4)*(out_channel)*sizeof(float));
+    float* poolingFloat_3 = (float*)malloc((width/8)*(height/8)*(out_channel)*sizeof(float));
+    float* resFloat_4 = (float*)malloc((width/8)*(height/8)*(out_channel)*sizeof(float));
+    float* poolingFloat_4 = (float*)malloc((width/16)*(height/16)*(out_channel)*sizeof(float));
+    
     
     // RGBA格式专为float
     pixNumber = (uint32_t)width*(uint32_t)height;
@@ -223,21 +230,38 @@
     // 输出图片只有4个通道。RGBA  输出通道：64通道，注意错误
     //[self U2F:res:pixNumber:resFloat];
     
-    // 卷积操作计算：
+    
+    // 卷积操作计算：convution 1
     [self conv4:(float*)weightsarray:(float *)bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
-    
-    
-    
     //-(void)pooling:(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
     // 卷积层的输出层作为pooling层的输入和输出
+    [self pooling:(float*)resFloat:(float*)poolingFloat:2:2:(width):(height):out_channel:out_channel];
     
-    [self pooling:(float*)resFloat:(float*)poolingFloat:2:2:(width+kernel_size):(height+kernel_size):out_channel:out_channel];
+    //2 conv relu poolling
+    [self conv4:(float*)weightsarray:(float *)bias:(float*)poolingFloat:(float*)resFloat_2:kernel_size:kernel_size:width/2:height/2:in_channel:out_channel];
+    // 卷积层的输出层作为pooling层的输入和输出
+    [self pooling:(float*)resFloat_2:(float*)poolingFloat_2:2:2:(width/2):(height/2):out_channel:out_channel];
+    
+    
+    //3 conv relu poolling
+    [self conv4:(float*)weightsarray:(float *)bias:(float*)poolingFloat_2:(float*)resFloat_3:kernel_size:kernel_size:width/4:height/4:in_channel:out_channel];
+    // 卷积层的输出层作为pooling层的输入和输出
+    [self pooling:(float*)resFloat_3:(float*)poolingFloat_3:2:2:(width/4):(height/4):out_channel:out_channel];
+    
+    
+    //4 conv relu poolling
+    [self conv4:(float*)weightsarray:(float *)bias:(float*)poolingFloat_3:(float*)resFloat_4:kernel_size:kernel_size:width/8:height/8:in_channel:out_channel];
+    // 卷积层的输出层作为pooling层的输入和输出
+    [self pooling:(float*)resFloat_4:(float*)poolingFloat_4:2:2:(width/8):(height/8):out_channel:out_channel];
+    
+    
+    
     // float 格式专为RGBA
     //[self F2U_3:res:pixNumber:resFloat];
     
-    pixNumber = (uint32_t)(width+kernel_size)*(uint32_t)(height+kernel_size);
+    pixNumber = (uint32_t)(width/16)*(uint32_t)(height/16);
     // 将卷积结果的第0个通道传入res,用于显示
-    [self F2U_channel:res:pixNumber:poolingFloat:0];
+    [self F2U_channel:res:pixNumber:poolingFloat_4:0];
 }
 
 
@@ -317,14 +341,14 @@
     //[self display:arr:3*25];
     //[self display:arr:3*25];
     
-    for (int oc=0;oc<out_channel;oc++)
+    for (int channel=0;channel<out_channel;channel++)
     {
-        for(int ic=0;ic<in_channel;ic++)
-        {
+        //for(int ic=0;ic<in_channel;ic++)
+        //{
             // do one channel convolution
-            for (int i=-radus; i<arrH+radus; i++)
+            for (int i=0; i<arrH; i+=2)
             {
-                for (int j=-radus; j<arrW+radus; j++)
+                for (int j=0; j<arrW; j+=2)
                 {
                     temp=0;
                     
@@ -333,10 +357,10 @@
                         for (int n=0; n<filterW; n++)
                         {
                             
-                            if ((i+m-radus)>=0 && (i+m-radus)<arrH && (j+n-radus)>=0 && (j+n-radus)<arrW)
+                            if ((i+m)>=0 && (i+m)<arrH && (j+n)>=0 && (j+n)<arrW)
                             {
                                 //temp += filter[m][n]*arr[i-m][j-n];
-                                float tmp_pixel=arr[ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus)];
+                                float tmp_pixel=arr[channel*arrW*arrH+(i+m)*arrW+(j+n)];
                                 temp = (tmp_pixel>temp)?tmp_pixel:temp;
                                 //float weight=filter[(oc*in_channel+ic)*filterW*filterH+m*filterW+n];
                                 //int index =ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus);
@@ -350,13 +374,13 @@
                 
                     if((i>-1 && i<arrH)&&(j>-1 && j<arrW))
                     {
-                        res[oc*arrW*arrH+i*arrW+j]=[self relu:temp];
-                        printf("[%d,%d,%d]=%f\n",i,j,oc,temp);
+                        res[channel*arrW/2*arrH/2+i/2*arrW/2+j/2]=[self relu:temp];
+                        //printf("[%d,%d,%d]=%f\n",i,j,oc,temp);
                     }
                 }
             }
                 //printf("i=%d\n",i);
-        }
+        //}
         //printf("oc=%d\n",oc);
     }
     
@@ -371,8 +395,6 @@
     uint32_t* rgbImageBuf = (uint32_t*)malloc(bytesPerRow * imageHeight);
     uint32_t* res = (uint32_t*)malloc(bytesPerRow * imageHeight);
     
-    
-    
     //change the UIImage to uint_32
     [self UIImage2array:image:rgbImageBuf];
     
@@ -385,8 +407,11 @@
     //[self conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
     
     // 4维度，输入3通道，输出4通道
-    [self conv4d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
+    [self convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
     
+    // 如果模型有对图片大小操作，则需要将显示模版也相应变小
+    CGSize smallsize = CGSizeMake(imageWidth/16, imageHeight/16);
+    image=[self scaleToSize:image:smallsize];
     
     // change the uint_32 array to UIImage for show
     //image=[self array2UIImage:rgbImageBuf:image];
