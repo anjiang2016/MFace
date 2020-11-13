@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface model : NSObject
-
+-(NSString*)getModel:(float*)farray;
 @end
 
 NS_ASSUME_NONNULL_END

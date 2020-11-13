@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ImageProcess.h"
 #import "FileOperate.h"
+#import "model.h"
 
 //@interface ViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @interface ViewController ()
@@ -60,10 +61,13 @@
     NSString *filePath;
 
     
-    //JSON文件的路径
+    //模型文件的路径
     NSString *path1 = [[NSBundle mainBundle] pathForResource:@"w2.pth" ofType:nil];
         NSLog(@"path1 = %@", path1);
+    path1 = [[NSBundle mainBundle] pathForResource:@"w2.txt" ofType:nil];
+        NSLog(@"path1 = %@", path1);
     
+    //录制mp4所在路径，可以用于跟踪
     NSArray *mainpaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [mainpaths objectAtIndex:0];
     NSArray *fileList = [fm contentsOfDirectoryAtPath:documentsDir error:nil];
@@ -71,14 +75,7 @@
         NSLog(@"fileList = %@", fileList);
     }
     
-    while (filePath = [directoryEnum nextObject]) {
-        //NSLog(@"filePath = %@", filePath);
-        if([filePath rangeOfString:@"w2.pth"].location !=NSNotFound){
-            NSLog(@"filePath = %@", filePath);
-            
-        }
-    }
-     
+   
     
 }
 
@@ -99,37 +96,40 @@
     
     ImageProcess *p = [ImageProcess new];
     //testImageView.image=[p imageBlackToTransparent:testImageView.image:255:128:128];
-    CGSize smallsize = CGSizeMake(100.0f, 100.0f);
+    CGSize smallsize = CGSizeMake(20, 20);
     image=[p scaleToSize:image:smallsize];
     //self.image_1.image = [p imageBlackToTransparent:image:255:128:128];
     //self.image_1.image=image;
     float* bias =(float*)malloc(1);
+    /*
     float weightsarray[3*3*3*4];
     for(int i = 0;i<3*3*3*4;i++)
     {
         //手动设定中值滤波
         //weightsarray[i]=1.0f/(3.0f*3.0f*3.0f);
-
         //随机数
         float tmp=(float)(arc4random()%101)/50.0;
         weightsarray[i]= (tmp-1.0)/(3.0f*3.0f);
     }
-    int in_channel=3;
-    int out_channel=32;
-    printf("%f\n",weightsarray[0]);
-    printf("%f\n",weightsarray[6]);
-    self.v_textview.text = [self.v_textview.text stringByAppendingString:[NSString stringWithFormat:@"\n weightsarray[0]=%f",weightsarray[0]]];
-    self.v_textview.text = [self.v_textview.text stringByAppendingString:[NSString stringWithFormat:@"\n weightsarray[6]=%f",weightsarray[6]]];
+    */
+    model * Md = [model new];
+    float weightsarray[3*64*7*7];
+    NSString* filename_tmp = [Md getModel:weightsarray];
     
-
+    
+    int in_channel=3;
+    int out_channel=64;
+    [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[0]=%f",weightsarray[0]]];
+    [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[6]=%f",weightsarray[6]]];
+    
     memset(bias,0.0,1*sizeof(*bias));
     int padding=0;
     int stride=0;
-    int kernel_size=3;
+    int kernel_size=7;
     
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
     self.image_1.image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
-    //[self useModel setBackgroundImage:slef.image_1.image];
+    //self useModel setBackgroundImage:slef.image_1.image];
     [self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];
     self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n已经处理完。"];
 }
@@ -161,6 +161,7 @@
     [self takePhoto];
 }
 - (IBAction)button_getAlbum:(id)sender {
+    [self insert2TextView:@"\n>>>正在选图片"];
     [self selectPhoto];
 }
 
@@ -207,23 +208,6 @@
     self.v_textview.backgroundColor = [UIColor grayColor];
     self.v_imageview.backgroundColor = [UIColor grayColor];
     
-    /*
-    float farray[2];
-    //float fff={0.2,0.3};
-    //float bias = malloc(sizeof(float));
-    //NSString* newstring=@"1.1,2.2";
-    NSString* newstring=@"-7.8715e-02, -1.4323e-01, -8.0702e-02";
-    float tmp = [newstring floatValue];
-    NSArray  *array = [newstring componentsSeparatedByString:@","];
-    NSLog(@"array=%@",array);
-    NSLog(@"array[0]=%@",[array objectAtIndex:0]);
-    for(int i=0;i<[array count];i++)
-    {
-        farray[i]=[[array objectAtIndex:i] floatValue];
-        NSLog(@"farray[%d]=%f",i,farray[i]);
-    }
-    
-    */
 }
 
 - (BOOL) isCameraAvailable{
@@ -516,6 +500,10 @@
      ];
 }
 
+
+-(void) insert2TextView:(NSString *)str_message{
+    self.v_textview.text = [str_message stringByAppendingString:self.v_textview.text];
+}
 
 @end
 

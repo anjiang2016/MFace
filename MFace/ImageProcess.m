@@ -45,7 +45,7 @@
     }
 }
 
-- (void) U2F:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf{
+- (void) U2F:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf{
     uint32_t* pCurPtr = rgbImageBuf;
     float* fptr = rgbFloatBuf;
     for (int i = 0; i < pixelNum; i++, pCurPtr++,fptr++){
@@ -68,16 +68,12 @@
 }
 
 
-- (void) U2F_3:(uint32_t*)rgbImageBuf :(int)pixelNum :(int)in_channel :(float*)rgbFloatBuf{
+- (void) U2F_3:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(int)in_channel :(float*)rgbFloatBuf{
     uint32_t* pCurPtr = rgbImageBuf;
     float* fptr = rgbFloatBuf;
     for (int i = 0; i < pixelNum; i++, pCurPtr++){
         // 改成下面的代码，会将图片转成想要的颜色
         uint8_t* ptr = (uint8_t*)pCurPtr;
-        //ptr[3] -=0; //0~255 red
-        //ptr[2] -=ptr[2];//green
-        //ptr[1] -=ptr[1];//blue;
-        //ptr[0] = 255;
         float Rvalue = (float)ptr[3];
         float Gvalue = (float)ptr[2];
         float Bvalue = (float)ptr[1];
@@ -87,7 +83,6 @@
         fptr[i+pixelNum]=(Gvalue/255.0f);
         fptr[i+pixelNum*2]=(Bvalue/255.0f);
         //printf("i=%d,%f,%f,%f\n",i,fptr[i],fptr[i+pixelNum],fptr[i+pixelNum*2]);
-        
         //0.30R+ 0.59G + 0.11B
         // rgb2gray
         //fptr[i] = (float)ptr[3];// use red channel to be the pixel's float value
@@ -95,7 +90,7 @@
 }
 
 
-- (void) F2U:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf{
+- (void) F2U:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf{
     uint32_t* pCurPtr = rgbImageBuf;
     float* fptr = rgbFloatBuf;
     for (int i = 0; i < pixelNum; i++, pCurPtr++,fptr++){
@@ -112,7 +107,23 @@
     }
 }
 
-- (void) F2U_3:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf{
+- (void) F2U_channel:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf :(int)channel{
+    uint32_t* pCurPtr = rgbImageBuf;
+    float* fptr = rgbFloatBuf;
+    for (int i = 0; i < pixelNum; i++, pCurPtr++,fptr++){
+        // 改成下面的代码，会将图片转成想要的颜色
+        uint8_t* ptr = (uint8_t*)pCurPtr;
+        uint8_t temp=0;
+        float channel_value = fptr[0+channel*pixelNum];
+        temp = (uint8_t)(channel_value*255.0f);
+        ptr[3] =temp;//red;
+        ptr[2] =temp;//green;
+        ptr[1] =temp;//blue;
+        ptr[0] = 255;
+    }
+}
+
+- (void) F2U_3:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf{
     uint32_t* pCurPtr = rgbImageBuf;
     float* fptr = rgbFloatBuf;
     for (int i = 0; i < pixelNum; i++, pCurPtr++,fptr++){
@@ -134,6 +145,7 @@
         ptr[0] = 255;
     }
 }
+
 
 
 
@@ -197,36 +209,46 @@
 // filter : k,k,in_c,out_c
 // arr: w,h,in_c
 // res: w,h out_c
-
 - (void) conv4d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
-    
-    uint32_t* pCurPtr = rgbImageBuf;
-    int pixNumber = width*height;
+    uint32_t pixNumber = (uint32_t)width*(uint32_t)height;
     float* rgbFloatBuf = (float*)malloc(width*height*in_channel*sizeof(float));
     float* resFloat = (float*)malloc((width+kernel_size)*(height+kernel_size)*(out_channel)*sizeof(float));
+    float* poolingFloat = (float*)malloc((width+kernel_size)*(height+kernel_size)*(out_channel)*sizeof(float));
     
-    [self U2F_3:rgbImageBuf:width*height:in_channel:rgbFloatBuf];
-    //[self U2F:res:width*height*out_channel:resFloat];
+    // RGBA格式专为float
+    pixNumber = (uint32_t)width*(uint32_t)height;
+    [self U2F_3:rgbImageBuf:pixNumber:in_channel:rgbFloatBuf];
     
+    pixNumber = pixNumber*(uint32_t)out_channel;
+    // 输出图片只有4个通道。RGBA  输出通道：64通道，注意错误
+    //[self U2F:res:pixNumber:resFloat];
+    
+    // 卷积操作计算：
     [self conv4:(float*)weightsarray:(float *)bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
-    [self F2U_3:res:pixNumber:resFloat];
-    /*
-    for (int i = 0; i < pixelNum; i++, pCurPtr++){
-            // 改成下面的代码，会将图片转成想要的颜色
-            uint8_t* ptr = (uint8_t*)pCurPtr;
-            ptr[3] -=0; //0~255 red
-            ptr[2] -=ptr[2];//green
-            ptr[1] -=ptr[1];//blue;
-            ptr[0] = 255;
-    }
-    */
+    
+    
+    
+    //-(void)pooling:(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
+    // 卷积层的输出层作为pooling层的输入和输出
+    
+    [self pooling:(float*)resFloat:(float*)poolingFloat:2:2:(width+kernel_size):(height+kernel_size):out_channel:out_channel];
+    // float 格式专为RGBA
+    //[self F2U_3:res:pixNumber:resFloat];
+    
+    pixNumber = (uint32_t)(width+kernel_size)*(uint32_t)(height+kernel_size);
+    // 将卷积结果的第0个通道传入res,用于显示
+    [self F2U_channel:res:pixNumber:poolingFloat:0];
 }
+
+
 - (void) display:(float*)array :(int)num{
     for(int i=0;i<num;i++)
     {
         printf("%f,",array[i]);
     }
 }
+
+
 - (void) conv4:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
 {
     float temp;
@@ -268,20 +290,79 @@
                 }
                 if((i>-1 && i<arrH)&&(j>-1 && j<arrW))
                 {
-                    res[oc*arrW*arrH+i*arrW+j]=temp;
+                    res[oc*arrW*arrH+i*arrW+j]=[self relu:temp];
                     //printf("[%d,%d,%d]=%f\n",i,j,oc,temp);
                 }
             }
                 //printf("i=%d\n",i);
         }
-            // done
-            
+        //printf("oc=%d\n",oc);
+    }
+}
+
+
+// relu 激活函数
+-(float)relu:(float)fv{
+    return (fv>0)?fv:0;
+}
+
+// pooling层
+-(void)pooling:(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
+{
+    
+    float temp;
+    int radus = (int)((float)filterW/2.0f);
+    
+    //[self display:filter:3*3*3*4];
+    //[self display:arr:3*25];
+    //[self display:arr:3*25];
+    
+    for (int oc=0;oc<out_channel;oc++)
+    {
+        for(int ic=0;ic<in_channel;ic++)
+        {
+            // do one channel convolution
+            for (int i=-radus; i<arrH+radus; i++)
+            {
+                for (int j=-radus; j<arrW+radus; j++)
+                {
+                    temp=0;
+                    
+                    for (int m=0; m<filterH; m++)
+                    {
+                        for (int n=0; n<filterW; n++)
+                        {
+                            
+                            if ((i+m-radus)>=0 && (i+m-radus)<arrH && (j+n-radus)>=0 && (j+n-radus)<arrW)
+                            {
+                                //temp += filter[m][n]*arr[i-m][j-n];
+                                float tmp_pixel=arr[ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus)];
+                                temp = (tmp_pixel>temp)?tmp_pixel:temp;
+                                //float weight=filter[(oc*in_channel+ic)*filterW*filterH+m*filterW+n];
+                                //int index =ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus);
+                                //float pix=arr[ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus)];
+                                //int index_weight=(oc*in_channel+ic)*filterW*filterH+m*filterW+n;
+                                //printf("index=%d,weight_index=%d\n",index,index_weight);
+                                //filter[0][0];
+                            }
+                        }
+                    }
+                
+                    if((i>-1 && i<arrH)&&(j>-1 && j<arrW))
+                    {
+                        res[oc*arrW*arrH+i*arrW+j]=[self relu:temp];
+                        printf("[%d,%d,%d]=%f\n",i,j,oc,temp);
+                    }
+                }
+            }
+                //printf("i=%d\n",i);
+        }
+        //printf("oc=%d\n",oc);
     }
     
     
-    
-
 }
+
 
 - (UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
     const int imageWidth = image.size.width;
@@ -307,12 +388,9 @@
     [self conv4d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
     
     
-    
-    
     // change the uint_32 array to UIImage for show
     //image=[self array2UIImage:rgbImageBuf:image];
     image=[self array2UIImage:res:image];
-    
     
     //free((void*)rgbImageBuf);
     

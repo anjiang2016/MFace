@@ -30,13 +30,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) conv2:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
 - (void) conv4:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
+-(void)pooling:(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
 
 
-- (void) U2F:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf;
-- (void) F2U:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf;
-- (void) U2F_3:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf;
-- (void) F2U_3:(uint32_t*)rgbImageBuf :(int)pixelNum :(float*)rgbFloatBuf;
+- (void) U2F:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
+- (void) F2U:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
+- (void) U2F_3:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
+- (void) F2U_3:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
+- (void) F2U_channel:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf :(int)channel;
 - (void) display:(float*)array :(int)num;
+- (float)relu:(float)fv;
 // pool
 @end
 

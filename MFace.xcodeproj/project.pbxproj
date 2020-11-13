@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67408DC0255EA43200CA199B /* w2.pth in Resources */ = {isa = PBXBuildFile; fileRef = 67408DBF255EA43200CA199B /* w2.pth */; };
+		67408DC4255EA65900CA199B /* w2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 67408DC3255EA65900CA199B /* w2.txt */; };
 		67631F05255BA68D000E36F9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F04255BA68D000E36F9 /* AppDelegate.m */; };
 		67631F08255BA68D000E36F9 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F07255BA68D000E36F9 /* SceneDelegate.m */; };
 		67631F0B255BA68D000E36F9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F0A255BA68D000E36F9 /* ViewController.m */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		67408DBF255EA43200CA199B /* w2.pth */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = w2.pth; path = "../../dlib_detect_recognize_display_show-master/w2.pth"; sourceTree = "<group>"; };
+		67408DC3255EA65900CA199B /* w2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = w2.txt; sourceTree = "<group>"; };
 		67631F00255BA68D000E36F9 /* MFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67631F03255BA68D000E36F9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		67631F04255BA68D000E36F9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -57,6 +61,7 @@
 		67631EF7255BA68D000E36F9 = {
 			isa = PBXGroup;
 			children = (
+				67408DC3255EA65900CA199B /* w2.txt */,
 				67631F02255BA68D000E36F9 /* MFace */,
 				67631F01255BA68D000E36F9 /* Products */,
 			);
@@ -89,6 +94,7 @@
 				67631F56255C0D27000E36F9 /* utils.m */,
 				67631F0C255BA68D000E36F9 /* Main.storyboard */,
 				67631F0F255BA68F000E36F9 /* Assets.xcassets */,
+				67408DBF255EA43200CA199B /* w2.pth */,
 				67631F11255BA68F000E36F9 /* LaunchScreen.storyboard */,
 				67631F14255BA68F000E36F9 /* Info.plist */,
 				67631F15255BA68F000E36F9 /* main.m */,
@@ -152,6 +158,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67408DC4255EA65900CA199B /* w2.txt in Resources */,
+				67408DC0255EA43200CA199B /* w2.pth in Resources */,
 				67631F13255BA68F000E36F9 /* LaunchScreen.storyboard in Resources */,
 				67631F10255BA68F000E36F9 /* Assets.xcassets in Resources */,
 				67631F0E255BA68D000E36F9 /* Main.storyboard in Resources */,
