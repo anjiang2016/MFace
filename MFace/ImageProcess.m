@@ -72,12 +72,11 @@
     uint32_t* pCurPtr = rgbImageBuf;
     float* fptr = rgbFloatBuf;
     for (int i = 0; i < pixelNum; i++, pCurPtr++){
-        // 改成下面的代码，会将图片转成想要的颜色
         uint8_t* ptr = (uint8_t*)pCurPtr;
         float Rvalue = (float)ptr[3];
         float Gvalue = (float)ptr[2];
         float Bvalue = (float)ptr[1];
-        float gray= 0.30*Rvalue+0.59*Gvalue+0.11*Bvalue;
+        //float gray= 0.30*Rvalue+0.59*Gvalue+0.11*Bvalue;
         //memset(fptr,gray,sizeof(float));
         fptr[i]=(Rvalue/255.0f);
         fptr[i+pixelNum]=(Gvalue/255.0f);
@@ -94,7 +93,6 @@
     uint32_t* pCurPtr = rgbImageBuf;
     float* fptr = rgbFloatBuf;
     for (int i = 0; i < pixelNum; i++, pCurPtr++,fptr++){
-        // 改成下面的代码，会将图片转成想要的颜色
         uint8_t* ptr = (uint8_t*)pCurPtr;
         uint8_t temp=0;
         float gray = *fptr;
@@ -103,7 +101,7 @@
         ptr[3] =temp; //0~255 red
         ptr[2] =temp;//green
         ptr[1] =temp;//blue;
-        ptr[0] = 255;
+        ptr[0] = 255;//alpha
     }
 }
 
@@ -149,9 +147,9 @@
 
 
 
-- (void) conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
+- (void) conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
     
-    uint32_t* pCurPtr = rgbImageBuf;
+    //uint32_t* pCurPtr = rgbImageBuf;
     int pixNumber = width*height;
     float* rgbFloatBuf = (float*)malloc(width*height*sizeof(float));
     float* resFloat = (float*)malloc((width+kernel_size)*(height+kernel_size)*sizeof(float));
@@ -159,7 +157,7 @@
     [self U2F:rgbImageBuf:pixNumber:rgbFloatBuf];
     [self U2F:res:pixNumber:resFloat];
     
-    [self conv2:(float*)weightsarray:(float *)bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
+    [self conv2:(float*)weightsarray:(float )bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
     [self F2U:res:pixNumber:resFloat];
     /*
     for (int i = 0; i < pixelNum; i++, pCurPtr++){
@@ -174,7 +172,7 @@
 }
 
 
-- (void) conv2:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
+- (void) conv2:(float*)filter :(float)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
 {
     float temp;
     int radus = (int)((float)filterW/2.0f);
@@ -209,7 +207,10 @@
 // filter : k,k,in_c,out_c
 // arr: w,h,in_c
 // res: w,h out_c
-- (void) convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
+//object-c
+//func(int param1,int param2)
+- (void) convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel
+{
     uint32_t pixNumber = (uint32_t)width*(uint32_t)height;
     float* rgbFloatBuf = (float*)malloc(width*height*in_channel*sizeof(float));
     float* resFloat = (float*)malloc((width)*(height)*(out_channel)*sizeof(float));
@@ -232,25 +233,25 @@
     
     
     // 卷积操作计算：convution 1
-    [self conv4:(float*)weightsarray:(float *)bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
+    [self conv4:(float*)weightsarray:(float )bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
     //-(void)pooling:(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
     // 卷积层的输出层作为pooling层的输入和输出
     [self pooling:(float*)resFloat:(float*)poolingFloat:2:2:(width):(height):out_channel:out_channel];
     
     //2 conv relu poolling
-    [self conv4:(float*)weightsarray:(float *)bias:(float*)poolingFloat:(float*)resFloat_2:kernel_size:kernel_size:width/2:height/2:in_channel:out_channel];
+    [self conv4:(float*)weightsarray:(float )bias:(float*)poolingFloat:(float*)resFloat_2:kernel_size:kernel_size:width/2:height/2:in_channel:out_channel];
     // 卷积层的输出层作为pooling层的输入和输出
     [self pooling:(float*)resFloat_2:(float*)poolingFloat_2:2:2:(width/2):(height/2):out_channel:out_channel];
     
     
     //3 conv relu poolling
-    [self conv4:(float*)weightsarray:(float *)bias:(float*)poolingFloat_2:(float*)resFloat_3:kernel_size:kernel_size:width/4:height/4:in_channel:out_channel];
+    [self conv4:(float*)weightsarray:(float )bias:(float*)poolingFloat_2:(float*)resFloat_3:kernel_size:kernel_size:width/4:height/4:in_channel:out_channel];
     // 卷积层的输出层作为pooling层的输入和输出
     [self pooling:(float*)resFloat_3:(float*)poolingFloat_3:2:2:(width/4):(height/4):out_channel:out_channel];
     
     
     //4 conv relu poolling
-    [self conv4:(float*)weightsarray:(float *)bias:(float*)poolingFloat_3:(float*)resFloat_4:kernel_size:kernel_size:width/8:height/8:in_channel:out_channel];
+    [self conv4:(float*)weightsarray:(float )bias:(float*)poolingFloat_3:(float*)resFloat_4:kernel_size:kernel_size:width/8:height/8:in_channel:out_channel];
     // 卷积层的输出层作为pooling层的输入和输出
     [self pooling:(float*)resFloat_4:(float*)poolingFloat_4:2:2:(width/8):(height/8):out_channel:out_channel];
     
@@ -259,9 +260,10 @@
     // float 格式专为RGBA
     //[self F2U_3:res:pixNumber:resFloat];
     
-    pixNumber = (uint32_t)(width/16)*(uint32_t)(height/16);
+    pixNumber = (uint32_t)(width/2)*(uint32_t)(height/2);
     // 将卷积结果的第0个通道传入res,用于显示
-    [self F2U_channel:res:pixNumber:poolingFloat_4:0];
+    // float 2 RGBA
+    [self F2U_channel:res:pixNumber:poolingFloat:0];
 }
 
 
@@ -273,7 +275,7 @@
 }
 
 
-- (void) conv4:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
+- (void) conv4:(float*)filter :(float)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
 {
     float temp;
     int radus = (int)((float)filterW/2.0f);
@@ -302,10 +304,10 @@
                             {
                                 //temp += filter[m][n]*arr[i-m][j-n];
                                 temp += filter[(oc*in_channel+ic)*filterW*filterH+m*filterW+n]*arr[ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus)];
-                                float weight=filter[(oc*in_channel+ic)*filterW*filterH+m*filterW+n];
-                                int index =ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus);
-                                float pix=arr[ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus)];
-                                int index_weight=(oc*in_channel+ic)*filterW*filterH+m*filterW+n;
+                                //float weight=filter[(oc*in_channel+ic)*filterW*filterH+m*filterW+n];
+                                //int index =ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus);
+                                //float pix=arr[ic*arrW*arrH+(i+m-radus)*arrW+(j+n-radus)];
+                                //int index_weight=(oc*in_channel+ic)*filterW*filterH+m*filterW+n;
                                 //printf("index=%d,weight_index=%d\n",index,index_weight);
                                 //filter[0][0];
                             }
@@ -315,6 +317,8 @@
                 if((i>-1 && i<arrH)&&(j>-1 && j<arrW))
                 {
                     res[oc*arrW*arrH+i*arrW+j]=[self relu:temp];
+                    //res[oc*arrW*arrH+i*arrW+j]=temp;
+                    
                     //printf("[%d,%d,%d]=%f\n",i,j,oc,temp);
                 }
             }
@@ -335,7 +339,7 @@
 {
     
     float temp;
-    int radus = (int)((float)filterW/2.0f);
+    //int radus = (int)((float)filterW/2.0f);
     
     //[self display:filter:3*3*3*4];
     //[self display:arr:3*25];
@@ -399,7 +403,7 @@
     [self UIImage2array:image:rgbImageBuf];
     
     // do some imageprocess
-    int pixelNum = imageWidth * imageHeight;
+    //int pixelNum = imageWidth * imageHeight;
     //[self setBlue:rgbImageBuf:pixelNum];
     
     
@@ -407,10 +411,12 @@
     //[self conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
     
     // 4维度，输入3通道，输出4通道
+    // 4维度，输入3通道，输出64通道
+    
     [self convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
     
     // 如果模型有对图片大小操作，则需要将显示模版也相应变小
-    CGSize smallsize = CGSizeMake(imageWidth/16, imageHeight/16);
+    CGSize smallsize = CGSizeMake(imageWidth/2, imageHeight/2);
     image=[self scaleToSize:image:smallsize];
     
     // change the uint_32 array to UIImage for show
@@ -460,7 +466,7 @@
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
     // 输出图片
-    utils *p = [utils new];
+    //utils *p = [utils new];
     CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rgbImageBuf, bytesPerRow * imageHeight, NULL);
     CGImageRef imageRef = CGImageCreate(imageWidth, imageHeight, 8, 32, bytesPerRow, colorSpace,
                                         kCGImageAlphaLast | kCGBitmapByteOrder32Little, dataProvider,
@@ -507,7 +513,7 @@
     }
        
     // 输出图片
-    utils *p = [utils new];
+    //utils *p = [utils new];
     CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rgbImageBuf, bytesPerRow * imageHeight, NULL);
     CGImageRef imageRef = CGImageCreate(imageWidth, imageHeight, 8, 32, bytesPerRow, colorSpace,
                                         kCGImageAlphaLast | kCGBitmapByteOrder32Little, dataProvider,

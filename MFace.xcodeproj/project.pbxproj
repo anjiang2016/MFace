@@ -41,6 +41,7 @@
 		67631F52255C0C98000E36F9 /* ImageProcess.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageProcess.m; sourceTree = "<group>"; };
 		67631F55255C0D27000E36F9 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		67631F56255C0D27000E36F9 /* utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = utils.m; sourceTree = "<group>"; };
+		678462E5283B77F200B212A8 /* MFace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MFace.entitlements; sourceTree = "<group>"; };
 		67853C06255E5D40003DEA3A /* FileOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileOperate.h; sourceTree = "<group>"; };
 		67853C07255E5D40003DEA3A /* FileOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileOperate.m; sourceTree = "<group>"; };
 		67853C0A255E8B10003DEA3A /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 		67631F02255BA68D000E36F9 /* MFace */ = {
 			isa = PBXGroup;
 			children = (
+				678462E5283B77F200B212A8 /* MFace.entitlements */,
 				67631F03255BA68D000E36F9 /* AppDelegate.h */,
 				67631F04255BA68D000E36F9 /* AppDelegate.m */,
 				67631F06255BA68D000E36F9 /* SceneDelegate.h */,
@@ -323,16 +325,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MFace/MFace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WUY2UVM5F8;
 				INFOPLIST_FILE = MFace/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = kkb.MFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -342,16 +347,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MFace/MFace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WUY2UVM5F8;
 				INFOPLIST_FILE = MFace/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = kkb.MFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

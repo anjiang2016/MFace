@@ -46,7 +46,7 @@
     //创建NSFileManager实例
     NSFileManager *fm = [NSFileManager defaultManager];
     //获取当前目录
-    NSString *path = [fm currentDirectoryPath];
+    //NSString *path = [fm currentDirectoryPath];
     //self.status_text.text=@"/";
     NSLog(@"staus_text = %@", self.status_text.text);
     
@@ -57,8 +57,8 @@
         self.v_textview.text = [self.v_textview.text stringByAppendingString:[fileArray1 componentsJoinedByString:@"\n,"]];
     }
     
-    NSDirectoryEnumerator *directoryEnum = [fm enumeratorAtPath:self.status_text.text];
-    NSString *filePath;
+    //NSDirectoryEnumerator *directoryEnum = [fm enumeratorAtPath:self.status_text.text];
+    //NSString *filePath;
 
     
     //模型文件的路径
@@ -112,9 +112,9 @@
         weightsarray[i]= (tmp-1.0)/(3.0f*3.0f);
     }
     */
-    model * Md = [model new];
+    //model * Md = [model new];
     float weightsarray[3*64*7*7];
-    NSString* filename_tmp = [Md getModel:weightsarray];
+    //NSString* filename_tmp = [Md getModel:weightsarray];
     
     
     int in_channel=3;
@@ -128,10 +128,11 @@
     int kernel_size=7;
     
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
+    //p.passlayer(image,weightsarray,kernel_size)
     self.image_1.image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
     //self useModel setBackgroundImage:slef.image_1.image];
     [self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];
-    [self insert2TextView:[NSString stringWithFormat:@"\nfeature map:(%f,%f)",self.image_1.image.size.width,self.image_1.image.size.height]];
+    [self insert2TextView:[NSString stringWithFormat:@"\n--feature map:(%f,%f)",self.image_1.image.size.width,self.image_1.image.size.height]];
     self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n已经处理完。"];
 }
 
@@ -290,7 +291,7 @@
     [self.get_image_button setBackgroundImage:image forState:UIControlStateNormal];
     
     
-    NSString *urlStr =[NSString stringWithFormat:@"%@", [info objectForKey:UIImagePickerControllerMediaURL]];
+    //NSString *urlStr =[NSString stringWithFormat:@"%@", [info objectForKey:UIImagePickerControllerMediaURL]];
     
     
     NSString *documentsDirPath =[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) firstObject];

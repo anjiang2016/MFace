@@ -25,7 +25,8 @@
                     componentsSeparatedByString:@"\n"];
         
     //NSLog(@"fileData = %@", fileData);
-    int count = [fileData count];
+    // fileData.count();
+    unsigned long  count = [fileData count];
     // 因为文件还有最后一行，所以这里把行数减1
     count = count -1;
     for(int i=0;i<count;i++)
