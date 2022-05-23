@@ -149,7 +149,7 @@
 }
 
 
-// 功能：读取相册
+// 功能：读取相册,等着稍后对照片进行识别
 - (void)selectPhoto{
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc]init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;

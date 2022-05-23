@@ -8,7 +8,7 @@
 #import "model.h"
 
 @implementation model
-
+// 模式初始化的时候要用
 -(NSString*)getModel :(float*)farray
 {
     //模型文件的路径
