@@ -95,12 +95,12 @@
     [self calulateImageFileSize:image];
     
     ImageProcess *p = [ImageProcess new];
-    //testImageView.image=[p imageBlackToTransparent:testImageView.image:255:128:128];
+    p.bias=0.4;
+    //resize
     CGSize smallsize = CGSizeMake(200, 200);
     image=[p scaleToSize:image:smallsize];
-    //self.image_1.image = [p imageBlackToTransparent:image:255:128:128];
-    //self.image_1.image=image;
-    //float* bias =(float*)malloc(1);
+    
+    // init model
     /*
     float weightsarray[3*3*3*4];
     for(int i = 0;i<3*3*3*4;i++)
@@ -112,9 +112,10 @@
         weightsarray[i]= (tmp-1.0)/(3.0f*3.0f);
     }
     */
-    //model * Md = [model new];
+    
+    model * Md = [model new];
     float weightsarray[3*64*7*7];
-    //NSString* filename_tmp = [Md getModel:weightsarray];
+    NSString* filename_tmp = [Md getModel:weightsarray];
     
     
     int in_channel=3;
@@ -124,15 +125,18 @@
     
     //memset(bias,0.0,1*sizeof(*bias));
     int padding=0;
-    int stride=0;
+    int stride=2;
     int kernel_size=7;
     int bias=0.0;
     
+    // 前向计算过程
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
     //p.passlayer(image,weightsarray,kernel_size)
     self.image_1.image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
+    
+    // 将处理后的图片显示到use model 按钮的背景里
     //self useModel setBackgroundImage:slef.image_1.image];
-    [self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];
+    //[self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];
     [self insert2TextView:[NSString stringWithFormat:@"\n--feature map:(%f,%f)",self.image_1.image.size.width,self.image_1.image.size.height]];
     self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n已经处理完。"];
 }
@@ -152,6 +156,7 @@
 
 // 功能：读取相册,等着稍后对照片进行识别
 - (void)selectPhoto{
+    NSLog(@"select Photo");
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc]init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     imagePickerController.delegate = self;
@@ -161,6 +166,7 @@
 
 
 - (IBAction)button_getimage:(id)sender {
+    NSLog(@"button_getimage");
     [self takePhoto];
 }
 - (IBAction)button_getAlbum:(id)sender {
@@ -288,8 +294,9 @@
     //拿到图片，可以进行任意处理。
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     self.image_1.image=image;
-    [self.button_getimage setBackgroundImage:image forState:UIControlStateNormal];
-    [self.get_image_button setBackgroundImage:image forState:UIControlStateNormal];
+    // 将拿到的图片放到按钮的背景图上
+    //[self.button_getimage setBackgroundImage:image forState:UIControlStateNormal];
+    //[self.get_image_button setBackgroundImage:image forState:UIControlStateNormal];
     
     
     //NSString *urlStr =[NSString stringWithFormat:@"%@", [info objectForKey:UIImagePickerControllerMediaURL]];

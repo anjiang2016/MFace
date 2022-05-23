@@ -8,7 +8,7 @@
 #import "ImageProcess.h"
 #import "utils.h"
 @implementation ImageProcess
-
+@synthesize bias;
 - (void) setBlue:(uint32_t*)rgbImageBuf :(int)pixelNum{
     uint32_t* pCurPtr = rgbImageBuf;
     for (int i = 0; i < pixelNum; i++, pCurPtr++){
@@ -264,6 +264,18 @@
     // 将卷积结果的第0个通道传入res,用于显示
     // float 2 RGBA
     [self F2U_channel:res:pixNumber:poolingFloat:0];
+    
+    // free memory
+    free(rgbFloatBuf);
+    free(resFloat);
+    free(poolingFloat);
+    free(resFloat_2);
+    free(poolingFloat_2);
+    free(resFloat_3);
+    free(poolingFloat_3);
+    free(resFloat_4);
+    free(poolingFloat_4);
+    
 }
 
 
@@ -424,7 +436,8 @@
     image=[self array2UIImage:res:image];
     
     //free((void*)rgbImageBuf);
-    
+    free(res);
+    free(rgbImageBuf);
     return image;
     //return rgbImageBuf;
 }

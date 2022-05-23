@@ -11,7 +11,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ImageProcess : NSObject
+@interface ImageProcess : NSObject{
+    @public
+        float weightsarray[3*64*7*7];
+        //NSString* filename_tmp = [Md getModel:weightsarray];
+        int in_channel;
+        int out_channel;
+        //memset(bias,0.0,1*sizeof(*bias));
+        int padding;
+        int stride;
+        int kernel_size;
+}
+@property int bias;
+
 - (UIImage*)imageBlackToTransparent:(UIImage*)image :(CGFloat)red :(CGFloat)green :(CGFloat)blue;
 - (UIImage *)scaleToSize:(UIImage *)img :(CGSize)size;
 - (void)UIImage2array:(UIImage*)image :(uint32_t*)imagearray;
