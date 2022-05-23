@@ -100,7 +100,7 @@
     image=[p scaleToSize:image:smallsize];
     //self.image_1.image = [p imageBlackToTransparent:image:255:128:128];
     //self.image_1.image=image;
-    float* bias =(float*)malloc(1);
+    //float* bias =(float*)malloc(1);
     /*
     float weightsarray[3*3*3*4];
     for(int i = 0;i<3*3*3*4;i++)
@@ -122,10 +122,11 @@
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[0]=%f",weightsarray[0]]];
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[6]=%f",weightsarray[6]]];
     
-    memset(bias,0.0,1*sizeof(*bias));
+    //memset(bias,0.0,1*sizeof(*bias));
     int padding=0;
     int stride=0;
     int kernel_size=7;
+    int bias=0.0;
     
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
     //p.passlayer(image,weightsarray,kernel_size)
