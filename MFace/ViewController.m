@@ -109,7 +109,8 @@
     // init model
     model * Md = [model new];
     float weightsarray[3*64*7*7];
-    NSString* filename_tmp = [Md getModel:weightsarray];
+    float * weights = malloc(11252040*sizeof(float));
+    NSString* filename_tmp = [Md getModel:weights :[NSString stringWithFormat:@"model_resnet18_triplet_epoch_586.txt"] :[Net new]];
     
     
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[0]=%f",weightsarray[0]]];

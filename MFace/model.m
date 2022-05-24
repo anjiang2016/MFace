@@ -7,13 +7,15 @@
 
 #import "model.h"
 
+
 @implementation model
 // 模式初始化的时候要用
--(NSString*)getModel :(float*)farray
+-(NSString*)getModel :(float*)farray :(NSString *)model_path :(Net * )net
 {
     //模型文件的路径
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"w2.pth" ofType:nil];
-        NSLog(@"path = %@,%s", path,__FILE__);
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"w2.pth" ofType:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:model_path ofType:nil];
+    NSLog(@"path = %@,%s", path,__FILE__);
     
     NSArray *fileData;
     NSError *error;
@@ -22,7 +24,7 @@
     fileData = [[NSString stringWithContentsOfFile:path
                                               encoding:NSUTF8StringEncoding
                                                  error:&error]
-                    componentsSeparatedByString:@"\n"];
+                    componentsSeparatedByString:@" "]; // 分割符为空格
         
     //NSLog(@"fileData = %@", fileData);
     // fileData.count();
@@ -32,9 +34,19 @@
     for(int i=0;i<count;i++)
     {
         farray[i]=[[fileData objectAtIndex:i] floatValue];
+        NSString *tmp = [fileData objectAtIndex:i];
+        NSLog([fileData objectAtIndex:i]);
+        NSLog(@"%d",[[fileData objectAtIndex:i+1] intValue]);
+        i=i+1+[[fileData objectAtIndex:i+1] floatValue];
         //[[fileData objectAtIndex:i] floatValue];
         //NSLog(@"farray[%d]=%@",i,[fileData objectAtIndex:i]);
+        net._conv_layer1._filter=farray+2;
+        net._conv_layer1._kernel_size=7;
+        net._conv_layer1._input.channel=3;
+        net._conv_layer1._output.channel=64;
+        
     }
+    
     /*
     //获取NSArray类型对象的迭代器
     NSEnumerator *arrayEnumerator = [fileData objectEnumerator];

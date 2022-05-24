@@ -25,6 +25,7 @@
 		67846300283BB8DD00B212A8 /* Matrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 678462FF283BB8DD00B212A8 /* Matrix.m */; };
 		67846303283C5D8700B212A8 /* Conv.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846302283C5D8700B212A8 /* Conv.m */; };
 		6784630A283C843C00B212A8 /* Net.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846309283C843C00B212A8 /* Net.m */; };
+		6784630C283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6784630B283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt */; };
 		67853C08255E5D40003DEA3A /* FileOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C07255E5D40003DEA3A /* FileOperate.m */; };
 		67853C0C255E8B10003DEA3A /* model.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C0B255E8B10003DEA3A /* model.m */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 		67846305283C6A3400B212A8 /* libsystem_kernel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsystem_kernel.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/system/libsystem_kernel.tbd; sourceTree = DEVELOPER_DIR; };
 		67846308283C843C00B212A8 /* Net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Net.h; sourceTree = "<group>"; };
 		67846309283C843C00B212A8 /* Net.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Net.m; sourceTree = "<group>"; };
+		6784630B283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = model_resnet18_triplet_epoch_586.txt; sourceTree = "<group>"; };
 		67853C06255E5D40003DEA3A /* FileOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileOperate.h; sourceTree = "<group>"; };
 		67853C07255E5D40003DEA3A /* FileOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileOperate.m; sourceTree = "<group>"; };
 		67853C0A255E8B10003DEA3A /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				678462F2283BB01800B212A8 /* RELU.m */,
 				678462F3283BB01800B212A8 /* Scale.h */,
 				678462F4283BB01800B212A8 /* Scale.m */,
+				6784630B283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt */,
 				678462E5283B77F200B212A8 /* MFace.entitlements */,
 				67631F03255BA68D000E36F9 /* AppDelegate.h */,
 				67631F04255BA68D000E36F9 /* AppDelegate.m */,
@@ -208,6 +211,7 @@
 				67408DC4255EA65900CA199B /* w2.txt in Resources */,
 				67408DC0255EA43200CA199B /* w2.pth in Resources */,
 				67631F13255BA68F000E36F9 /* LaunchScreen.storyboard in Resources */,
+				6784630C283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt in Resources */,
 				67631F10255BA68F000E36F9 /* Assets.xcassets in Resources */,
 				67631F0E255BA68D000E36F9 /* Main.storyboard in Resources */,
 			);
