@@ -26,6 +26,7 @@
 		67846303283C5D8700B212A8 /* Conv.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846302283C5D8700B212A8 /* Conv.m */; };
 		6784630A283C843C00B212A8 /* Net.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846309283C843C00B212A8 /* Net.m */; };
 		6784630C283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6784630B283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt */; };
+		6784630E283D188900B212A8 /* load_save_pth.py in Resources */ = {isa = PBXBuildFile; fileRef = 6784630D283D188900B212A8 /* load_save_pth.py */; };
 		67853C08255E5D40003DEA3A /* FileOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C07255E5D40003DEA3A /* FileOperate.m */; };
 		67853C0C255E8B10003DEA3A /* model.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C0B255E8B10003DEA3A /* model.m */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,7 @@
 		67846308283C843C00B212A8 /* Net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Net.h; sourceTree = "<group>"; };
 		67846309283C843C00B212A8 /* Net.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Net.m; sourceTree = "<group>"; };
 		6784630B283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = model_resnet18_triplet_epoch_586.txt; sourceTree = "<group>"; };
+		6784630D283D188900B212A8 /* load_save_pth.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = load_save_pth.py; sourceTree = "<group>"; };
 		67853C06255E5D40003DEA3A /* FileOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileOperate.h; sourceTree = "<group>"; };
 		67853C07255E5D40003DEA3A /* FileOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileOperate.m; sourceTree = "<group>"; };
 		67853C0A255E8B10003DEA3A /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 		67631EF7255BA68D000E36F9 = {
 			isa = PBXGroup;
 			children = (
+				6784630D283D188900B212A8 /* load_save_pth.py */,
 				67408DC3255EA65900CA199B /* w2.txt */,
 				67631F02255BA68D000E36F9 /* MFace */,
 				67631F01255BA68D000E36F9 /* Products */,
@@ -214,6 +217,7 @@
 				6784630C283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt in Resources */,
 				67631F10255BA68F000E36F9 /* Assets.xcassets in Resources */,
 				67631F0E255BA68D000E36F9 /* Main.storyboard in Resources */,
+				6784630E283D188900B212A8 /* load_save_pth.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
