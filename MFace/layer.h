@@ -6,14 +6,16 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "Matrix.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface layer : NSObject
+@interface Layer : NSObject
 
-- (void) forward :(float *)input :(float *)output;
-
-
+- (void) forward;
+-(void)random_set:(float*)buff :(int)bufflen;
+-(void)free;
+@property Matrix* _input;
+@property Matrix* _output;
 @end
 
 NS_ASSUME_NONNULL_END

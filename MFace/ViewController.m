@@ -11,9 +11,11 @@
 #import "ImageProcess.h"
 #import "FileOperate.h"
 #import "model.h"
+#import "Scale.h"
 
 //@interface ViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @interface ViewController ()
+
 @property (weak, nonatomic) IBOutlet UIButton *button_file;
 
 @property (weak, nonatomic) IBOutlet UITextView *v_textview;
@@ -26,6 +28,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *button_getimage;
 @property (weak, nonatomic) IBOutlet UITextField *textarea;
 @property (nonatomic) UIImagePickerController *camera;
+@property UIImage * image;
+
+
+
 -(void) switchMOVtoMP:(NSURL *)inputURL;
 +(NSString*)getCurrentTimes;
 
@@ -90,15 +96,17 @@
     
     NSLog(@"use model to process image");
     self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n正在处理..."];
-
-    UIImage *image = self.image_1.image;
-    [self calulateImageFileSize:image];
+    if(self.image == NULL){
+        self.image = self.image_1.image;
+    }
+    [self calulateImageFileSize:self.image];
+    
     
     ImageProcess *p = [ImageProcess new];
     p.bias=0.4;
     //resize
     CGSize smallsize = CGSizeMake(200, 200);
-    image=[p scaleToSize:image:smallsize];
+    self.image=[p scaleToSize:self.image :smallsize];
     
     // init model
     /*
@@ -123,16 +131,17 @@
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[0]=%f",weightsarray[0]]];
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[6]=%f",weightsarray[6]]];
     
-    //memset(bias,0.0,1*sizeof(*bias));
+    float * bias = malloc(100);
+    memset(bias,0.0,1*sizeof(*bias));
     int padding=0;
     int stride=2;
     int kernel_size=7;
-    int bias=0.0;
+    //int bias=0.0;
     
     // 前向计算过程
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
     //p.passlayer(image,weightsarray,kernel_size)
-    self.image_1.image=[p passlayer:image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
+    self.image_1.image=[p passlayer:self.image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
     
     // 将处理后的图片显示到use model 按钮的背景里
     //self useModel setBackgroundImage:slef.image_1.image];

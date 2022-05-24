@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+//#import <Kernel/libkern/crypto/rand.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,17 +31,17 @@ NS_ASSUME_NONNULL_BEGIN
 // 图像缩放
 // 卷积计算
 //- (UIImage*)passlayer:(UIImage*)image :(float*)weightsarray :(float*)bias :(int)padding :(int)stride;
-- (UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel;
+- (UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel;
 - (void) setBlue:(uint32_t*)rgbImageBuf :(int)pixelNum;
 - (void) setRed:(uint32_t*)rgbImageBuf :(int)pixelNum;
 - (void) setGreen:(uint32_t*)rgbImageBuf :(int)pixelNum;
 //- (void) conv2:(int*_Nullable)filter :(int**)arr :(int**)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH;
 - (void) conv2d:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :(float*)weightsarray :(int)kernel_size :(float)bias :(int)padding :(int)strid :(int)in_channel :(int)out_channel;
 
-- (void) convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :(float*)weightsarray :(int)kernel_size :(float)bias :(int)padding :(int)strid :(int)in_channel :(int)out_channel;
+- (void) convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)strid :(int)in_channel :(int)out_channel;
 
 - (void) conv2:(float*)filter :(float)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
-- (void) conv4:(float*)filter :(float)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
+- (void) conv4:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
 -(void)pooling:(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
 
 

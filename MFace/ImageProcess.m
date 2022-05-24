@@ -7,6 +7,12 @@
 
 #import "ImageProcess.h"
 #import "utils.h"
+#import "Scale.h"
+#import "Pooling.h"
+#import "Conv.h"
+#import <Foundation/Foundation.h>
+//#import <Kernel/kernel.h>
+
 @implementation ImageProcess
 @synthesize bias;
 - (void) setBlue:(uint32_t*)rgbImageBuf :(int)pixelNum{
@@ -209,7 +215,7 @@
 // res: w,h out_c
 //object-c
 //func(int param1,int param2)
-- (void) convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel
+- (void) convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)width :(int)height :(float*)weightsarray :(int)kernel_size :(float*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel
 {
     uint32_t pixNumber = (uint32_t)width*(uint32_t)height;
     float* rgbFloatBuf = (float*)malloc(width*height*in_channel*sizeof(float));
@@ -233,37 +239,44 @@
     
     
     // 卷积操作计算：convution 1
-    [self conv4:(float*)weightsarray:(float )bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
+    [self conv4:(float*)weightsarray:(float* )bias:(float*)rgbFloatBuf:(float*)resFloat:kernel_size:kernel_size:width:height:in_channel:out_channel];
     //-(void)pooling:(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
     // 卷积层的输出层作为pooling层的输入和输出
     [self pooling:(float*)resFloat:(float*)poolingFloat:2:2:(width):(height):out_channel:out_channel];
     
     //2 conv relu poolling
-    [self conv4:(float*)weightsarray:(float )bias:(float*)poolingFloat:(float*)resFloat_2:kernel_size:kernel_size:width/2:height/2:in_channel:out_channel];
+    [self conv4:(float*)weightsarray:(float* )bias:(float*)poolingFloat:(float*)resFloat_2:kernel_size:kernel_size:width/2:height/2:in_channel:out_channel];
     // 卷积层的输出层作为pooling层的输入和输出
     [self pooling:(float*)resFloat_2:(float*)poolingFloat_2:2:2:(width/2):(height/2):out_channel:out_channel];
     
     
     //3 conv relu poolling
-    [self conv4:(float*)weightsarray:(float )bias:(float*)poolingFloat_2:(float*)resFloat_3:kernel_size:kernel_size:width/4:height/4:in_channel:out_channel];
+    [self conv4:(float*)weightsarray:(float* )bias:(float*)poolingFloat_2:(float*)resFloat_3:kernel_size:kernel_size:width/4:height/4:in_channel:out_channel];
     // 卷积层的输出层作为pooling层的输入和输出
     [self pooling:(float*)resFloat_3:(float*)poolingFloat_3:2:2:(width/4):(height/4):out_channel:out_channel];
     
     
     //4 conv relu poolling
-    [self conv4:(float*)weightsarray:(float )bias:(float*)poolingFloat_3:(float*)resFloat_4:kernel_size:kernel_size:width/8:height/8:in_channel:out_channel];
+    [self conv4:(float*)weightsarray:(float* )bias:(float*)poolingFloat_3:(float*)resFloat_4:kernel_size:kernel_size:width/8:height/8:in_channel:out_channel];
     // 卷积层的输出层作为pooling层的输入和输出
     [self pooling:(float*)resFloat_4:(float*)poolingFloat_4:2:2:(width/8):(height/8):out_channel:out_channel];
+    
+    
+    
+    
+    
+    
+   
     
     
     
     // float 格式专为RGBA
     //[self F2U_3:res:pixNumber:resFloat];
     
-    pixNumber = (uint32_t)(width/2)*(uint32_t)(height/2);
+    pixNumber = (uint32_t)(width/8)*(uint32_t)(height/8);
     // 将卷积结果的第0个通道传入res,用于显示
     // float 2 RGBA
-    [self F2U_channel:res:pixNumber:poolingFloat:0];
+    [self F2U_channel:res:pixNumber:poolingFloat_3:0];
     
     // free memory
     free(rgbFloatBuf);
@@ -287,7 +300,7 @@
 }
 
 
-- (void) conv4:(float*)filter :(float)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
+- (void) conv4:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
 {
     float temp;
     int radus = (int)((float)filterW/2.0f);
@@ -404,7 +417,7 @@
 }
 
 
-- (UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
+- (UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int*)bias :(int)padding :(int)stride :(int)in_channel :(int)out_channel{
     const int imageWidth = image.size.width;
     const int imageHeight = image.size.height;
     size_t      bytesPerRow = imageWidth * 4;
@@ -412,7 +425,7 @@
     uint32_t* res = (uint32_t*)malloc(bytesPerRow * imageHeight);
     
     //change the UIImage to uint_32
-    [self UIImage2array:image:rgbImageBuf];
+    [self UIImage2array:image :rgbImageBuf];
     
     // do some imageprocess
     //int pixelNum = imageWidth * imageHeight;
@@ -425,19 +438,58 @@
     // 4维度，输入3通道，输出4通道
     // 4维度，输入3通道，输出64通道
     
-    [self convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
+    //[self convReluPooling:(uint32_t*)rgbImageBuf :(uint32_t*)res :(int)imageWidth :(int)imageHeight :weightsarray :kernel_size :bias :padding :stride :in_channel :out_channel];
+   
+   
+    // RGBA格式专为float
+    int pixNumber = (uint32_t)imageWidth*(uint32_t)imageHeight;
+    float* rgbFloatBuf = (float*)malloc(pixNumber*in_channel*sizeof(float));
+    [self U2F_3:rgbImageBuf :pixNumber :in_channel :rgbFloatBuf];
+    
+    //pixNumber = pixNumber*(uint32_t)out_channel;
+    
+    /*
+    Scale  *scale_layer = [Scale new];
+    scale_layer._scale = 0.9;
+    scale_layer._input = [[Matrix alloc] init:poolingFloat :width/2 :height/2 :out_channel];
+    scale_layer._output = [[Matrix new] init:poolingFloat :width/2 :height/2 :out_channel];
+    //[scale_layer forward];
+    */
+    
+    Conv *conv_layer = [Conv new];
+    conv_layer._input = [[Matrix alloc] init:rgbFloatBuf :imageWidth :imageHeight :in_channel];
+    float * resFloat_2 = malloc(sizeof(float)*imageWidth/1*imageHeight/1*out_channel);
+    conv_layer._output = [[Matrix alloc] init:resFloat_2 :imageWidth/1 :imageHeight/1 :out_channel];
+    conv_layer = [conv_layer init:3 :2];
+    [conv_layer forward];
+    /*
+    Pooling  *pool_layer = [Pooling new];
+    pool_layer._stride=4;
+    pool_layer._kernel_size=4;
+    pool_layer._input = [[Matrix alloc] init:resFloat_2 :width/2 :height/2 :out_channel];
+    pool_layer._output = [[Matrix alloc] init:poolingFloat_3 :width/8 :height/8 :out_channel];
+    [pool_layer forward];
+    */
+    
+    
+    // float 2 RGBA
+    
+    //[self F2U_channel:res :conv_layer._output.width*conv_layer._output.height :resFloat_2 :0];
+    [self F2U_channel:res :imageWidth*imageHeight :resFloat_2 :0];
     
     // 如果模型有对图片大小操作，则需要将显示模版也相应变小
-    CGSize smallsize = CGSizeMake(imageWidth/2, imageHeight/2);
+    CGSize smallsize = CGSizeMake(imageWidth, imageHeight);
     image=[self scaleToSize:image:smallsize];
     
     // change the uint_32 array to UIImage for show
     //image=[self array2UIImage:rgbImageBuf:image];
-    image=[self array2UIImage:res:image];
+    image=[self array2UIImage:res :image];
     
     //free((void*)rgbImageBuf);
     free(res);
     free(rgbImageBuf);
+    free(resFloat_2);
+    [conv_layer free];
     return image;
     //return rgbImageBuf;
 }
