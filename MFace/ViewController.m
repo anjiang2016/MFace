@@ -101,43 +101,19 @@
         self.image = self.image_1.image;
     }
     [self calulateImageFileSize:self.image];
-    
-    
     ImageProcess *p = [ImageProcess new];
-    p.bias=0.4;
     //resize
     CGSize smallsize = CGSizeMake(200, 200);
     self.image=[p scaleToSize:self.image :smallsize];
     
     // init model
-    /*
-    float weightsarray[3*3*3*4];
-    for(int i = 0;i<3*3*3*4;i++)
-    {
-        //手动设定中值滤波
-        //weightsarray[i]=1.0f/(3.0f*3.0f*3.0f);
-        //随机数
-        float tmp=(float)(arc4random()%101)/50.0;
-        weightsarray[i]= (tmp-1.0)/(3.0f*3.0f);
-    }
-    */
-    
     model * Md = [model new];
     float weightsarray[3*64*7*7];
     NSString* filename_tmp = [Md getModel:weightsarray];
     
     
-    int in_channel=3;
-    int out_channel=64;
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[0]=%f",weightsarray[0]]];
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[6]=%f",weightsarray[6]]];
-    
-    float * bias = malloc(100);
-    memset(bias,0.0,1*sizeof(*bias));
-    int padding=0;
-    int stride=2;
-    int kernel_size=7;
-    //int bias=0.0;
     
     // 前向计算过程
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
@@ -146,6 +122,8 @@
    
     Net * net = [[Net new] init];
     self.image_1.image=[net forward:self.image];
+    [net free];
+    
     // 将处理后的图片显示到use model 按钮的背景里
     //self useModel setBackgroundImage:slef.image_1.image];
     //[self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];

@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property Pooling * _pool_layer3;
 -(Net *)init;
 -(UIImage* )forward:(UIImage*)image;
+-(Matrix * )passlayer:(Matrix *)input;
+-(void)free;
 @end
 
 NS_ASSUME_NONNULL_END

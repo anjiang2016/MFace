@@ -96,6 +96,20 @@
     
     return self;
 }
+-(void)free{
+    [self._conv_layer1 free];
+    [self._relu_layer1 free];
+    [self._pool_layer1 free];
+    
+    [self._conv_layer2 free];
+    [self._relu_layer2 free];
+    [self._pool_layer2 free];
+    
+    [self._conv_layer3 free];
+    [self._relu_layer3 free];
+    [self._pool_layer3 free];
+    
+}
 
 - (Matrix *)passlayer:(Matrix * )input{
     self._conv_layer1._input = input;
@@ -132,92 +146,17 @@
     int in_channel=3;
     int pixNumber = (uint32_t)imageWidth*(uint32_t)imageHeight;
     float* rgbFloatBuf = (float*)malloc(pixNumber*in_channel*sizeof(float));
-    float* rgbFloatBuf1 = (float*)malloc(pixNumber*in_channel*sizeof(float));
     
     [p U2F_3 :rgbImageBuf :pixNumber :in_channel :rgbFloatBuf];
-    [p U2F_3 :rgbImageBuf :pixNumber :in_channel :rgbFloatBuf1];
-    
-    /*
-    Scale  *scale_layer = [Scale new];
-    scale_layer._scale = 0.9;
-    scale_layer._input = [[Matrix alloc] init:poolingFloat :width/2 :height/2 :out_channel];
-    scale_layer._output = [[Matrix new] init:poolingFloat :width/2 :height/2 :out_channel];
-    //[scale_layer forward];
-    */
-    
-    int out_channel=1;
-    Conv *conv_layer = [Conv new];
-    conv_layer._input = [[Matrix alloc] init:rgbFloatBuf :imageWidth :imageHeight :in_channel];
-    
-    int outWidth=imageWidth/1;
-    int outHeight=imageHeight/1;
-    float * resFloat_2 = malloc(sizeof(float)*outWidth*outHeight*out_channel);
-    conv_layer._output = [[Matrix alloc] init:resFloat_2 :outWidth :outHeight :out_channel];
-    conv_layer = [conv_layer init:7 :1];
-    [conv_layer forward];
-    
-    RELU * relu_layer = [RELU new];
-    relu_layer._input = conv_layer._output;
-    relu_layer._output = conv_layer._output;
-    [relu_layer forward];
-    
-    Pooling  *pool_layer = [Pooling new];
-    pool_layer._stride=2;
-    outWidth=outWidth/pool_layer._stride;
-    outHeight=outHeight/pool_layer._stride;
-    pool_layer._kernel_size=2;
-    pool_layer._input = conv_layer._output;
-    float * poolingFloat_3 = malloc(sizeof(float)*outWidth*outHeight*out_channel);
-    pool_layer._output = [[Matrix alloc] init:poolingFloat_3 :outWidth :outHeight :out_channel];
-    [pool_layer forward];
     
     
-    Conv *conv_layer2 = [Conv new];
-    conv_layer2._input = pool_layer._output;
-    int kernel_size=7;
-    int stride = 1;
-    outWidth=outWidth/stride;
-    outHeight=outHeight/stride;
-    float * conv_out_2 = malloc(sizeof(float)*outWidth*outHeight*out_channel);
-    conv_layer2._output = [[Matrix alloc] init:conv_out_2 :outWidth :outHeight :out_channel];
-    conv_layer2 = [conv_layer2 init:kernel_size :stride];// 随机初始化当前层的参数
-    [conv_layer2 forward];
-    
-    relu_layer._input = conv_layer2._output;
-    relu_layer._output = conv_layer2._output;
-    [relu_layer forward];
-    pool_layer._input  = relu_layer._output;
-    
-    outWidth=outWidth/pool_layer._stride;
-    outHeight=outHeight/pool_layer._stride;
-    pool_layer._input = conv_layer2._output;
-    free(pool_layer._output.buff);
-    float * pool_out = malloc(sizeof(float)*outWidth*outHeight*out_channel);
-    pool_layer._output = [[Matrix alloc] init:pool_out :outWidth :outHeight :out_channel];
-    [pool_layer forward];
-   
-    
-    /*
-    outWidth=outWidth/pool_layer._stride;
-    outHeight=outHeight/pool_layer._stride;
-    pool_layer._input = pool_layer._output;
-    free(pool_layer._output.buff);
-    pool_out = malloc(sizeof(float)*outWidth*outHeight*out_channel);
-    pool_layer._output = [[Matrix alloc] init:pool_out :outWidth :outHeight :out_channel];
-    [pool_layer forward];
-    */
     
     
-    Matrix * input = [[Matrix alloc] init:rgbFloatBuf1 :imageWidth :imageHeight :in_channel];
+    Matrix * input = [[Matrix alloc] init:rgbFloatBuf :imageWidth :imageHeight :in_channel];
     Matrix * result = [self passlayer:input];
     // float 2 RGBA
-    
-    //[self F2U_channel:res :conv_layer._output.width*conv_layer._output.height :resFloat_2 :0];
-    //[p F2U_channel:res :pool_layer._output.width*pool_layer._output.height :pool_layer._output.buff :0];
-    //[p F2U_channel:res :result.width*result.height :result.buff :0];
-    //[p F2U_channel:res :imageWidth*imageHeight :rgbFloatBuf :0];
-    outWidth=result.width;
-    outHeight=result.height;
+    int outWidth=result.width;
+    int outHeight=result.height;
     [p F2U_channel:res :outWidth*outHeight :result.buff :0];
     
     // 如果模型有对图片大小操作，则需要将显示模版也相应变小
@@ -231,9 +170,6 @@
     //free((void*)rgbImageBuf);
     free(res);
     free(rgbImageBuf);
-    free(resFloat_2);
-    [conv_layer free];
-    free(pool_layer._output.buff);
     return image;
     //return rgbImageBuf;
 }

@@ -37,5 +37,8 @@
 -(void)free{
     free(self._filter);
     free(self._bias);
+    [self._input free];
+    [self._output free];
+    
 }
 @end

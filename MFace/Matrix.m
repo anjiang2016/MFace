@@ -19,5 +19,8 @@
     self.channel = channel;
     return self;
 }
+-(void)free{
+    free(self.buff);
+}
 
 @end
