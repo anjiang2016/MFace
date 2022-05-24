@@ -20,7 +20,10 @@
     return self;
 }
 -(void)free{
-    free(self.buff);
+    if(self.buff != nil){
+        free(self.buff);
+    }
+    
 }
 
 @end

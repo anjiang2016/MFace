@@ -134,20 +134,20 @@
     const int imageWidth = image.size.width;
     const int imageHeight = image.size.height;
     size_t      bytesPerRow = imageWidth * 4;
-    uint32_t* rgbImageBuf = (uint32_t*)malloc(bytesPerRow * imageHeight);
+    uint32_t* rgbIntBuf = (uint32_t*)malloc(bytesPerRow * imageHeight);
     uint32_t* res = (uint32_t*)malloc(bytesPerRow * imageHeight);
     
     // UIImage 2 uint32 image
     ImageProcess * p = [ImageProcess new];
     //change the UIImage to uint_32
-    [p UIImage2array:image :rgbImageBuf];
+    [p UIImage2array:image :rgbIntBuf];
     
     // uint32 image 2 float image
     int in_channel=3;
     int pixNumber = (uint32_t)imageWidth*(uint32_t)imageHeight;
     float* rgbFloatBuf = (float*)malloc(pixNumber*in_channel*sizeof(float));
     
-    [p U2F_3 :rgbImageBuf :pixNumber :in_channel :rgbFloatBuf];
+    [p U2F_3 :rgbIntBuf :pixNumber :in_channel :rgbFloatBuf];
     
     
     
@@ -167,9 +167,9 @@
     //image=[self array2UIImage:rgbImageBuf:image];
     image=[p array2UIImage:res :image];
     
-    //free((void*)rgbImageBuf);
+    free(rgbFloatBuf);
     free(res);
-    free(rgbImageBuf);
+    free(rgbIntBuf);
     return image;
     //return rgbImageBuf;
 }

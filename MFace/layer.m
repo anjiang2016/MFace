@@ -42,4 +42,9 @@
         self._output.buff[i]=self._input.buff[i]*2;
     }
 }
+-(void) free{
+    //[self._input free];
+    [self._output free];
+    
+}
 @end
