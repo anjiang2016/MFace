@@ -26,6 +26,8 @@
     int len_filter = self._output.channel*self._input.channel*self._kernel_size*self._kernel_size;
     self._filter = malloc(len_filter*sizeof(float));
     [self random_set:self._filter :len_filter];
+    // evevy kernel_size*kernel_size norm,
+    [self norm:self._filter :len_filter :_kernel_size];
     
     //random init bias
     self._bias = malloc(self._output.channel*sizeof(float));

@@ -12,6 +12,7 @@
 #import "FileOperate.h"
 #import "model.h"
 #import "Scale.h"
+#import "Net.h"
 
 //@interface ViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @interface ViewController ()
@@ -141,8 +142,10 @@
     // 前向计算过程
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
     //p.passlayer(image,weightsarray,kernel_size)
-    self.image_1.image=[p passlayer:self.image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
-    
+    //self.image_1.image=[p passlayer:self.image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
+   
+    Net * net = [[Net new] init];
+    self.image_1.image=[net forward:self.image];
     // 将处理后的图片显示到use model 按钮的背景里
     //self useModel setBackgroundImage:slef.image_1.image];
     //[self.useModel setBackgroundImage:self.image_1.image forState:UIControlStateNormal];

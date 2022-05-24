@@ -24,6 +24,7 @@
 		678462FD283BB5FF00B212A8 /* Pooling.m in Sources */ = {isa = PBXBuildFile; fileRef = 678462FC283BB5FF00B212A8 /* Pooling.m */; };
 		67846300283BB8DD00B212A8 /* Matrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 678462FF283BB8DD00B212A8 /* Matrix.m */; };
 		67846303283C5D8700B212A8 /* Conv.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846302283C5D8700B212A8 /* Conv.m */; };
+		6784630A283C843C00B212A8 /* Net.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846309283C843C00B212A8 /* Net.m */; };
 		67853C08255E5D40003DEA3A /* FileOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C07255E5D40003DEA3A /* FileOperate.m */; };
 		67853C0C255E8B10003DEA3A /* model.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C0B255E8B10003DEA3A /* model.m */; };
 /* End PBXBuildFile section */
@@ -61,6 +62,8 @@
 		67846301283C5D8700B212A8 /* Conv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Conv.h; sourceTree = "<group>"; };
 		67846302283C5D8700B212A8 /* Conv.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Conv.m; sourceTree = "<group>"; };
 		67846305283C6A3400B212A8 /* libsystem_kernel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsystem_kernel.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/lib/system/libsystem_kernel.tbd; sourceTree = DEVELOPER_DIR; };
+		67846308283C843C00B212A8 /* Net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Net.h; sourceTree = "<group>"; };
+		67846309283C843C00B212A8 /* Net.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Net.m; sourceTree = "<group>"; };
 		67853C06255E5D40003DEA3A /* FileOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileOperate.h; sourceTree = "<group>"; };
 		67853C07255E5D40003DEA3A /* FileOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileOperate.m; sourceTree = "<group>"; };
 		67853C0A255E8B10003DEA3A /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
@@ -132,6 +135,8 @@
 				678462FF283BB8DD00B212A8 /* Matrix.m */,
 				67846301283C5D8700B212A8 /* Conv.h */,
 				67846302283C5D8700B212A8 /* Conv.m */,
+				67846308283C843C00B212A8 /* Net.h */,
+				67846309283C843C00B212A8 /* Net.m */,
 			);
 			path = MFace;
 			sourceTree = "<group>";
@@ -218,6 +223,7 @@
 				678462FD283BB5FF00B212A8 /* Pooling.m in Sources */,
 				67631F53255C0C98000E36F9 /* ImageProcess.m in Sources */,
 				67846300283BB8DD00B212A8 /* Matrix.m in Sources */,
+				6784630A283C843C00B212A8 /* Net.m in Sources */,
 				67846303283C5D8700B212A8 /* Conv.m in Sources */,
 				67631F0B255BA68D000E36F9 /* ViewController.m in Sources */,
 				67631F05255BA68D000E36F9 /* AppDelegate.m in Sources */,

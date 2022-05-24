@@ -47,7 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) U2F:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
 - (void) F2U:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
-- (void) U2F_3:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
+//- (void) U2F_3:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
+- (void) U2F_3:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(int)in_channel :(float*)rgbFloatBuf;
 - (void) F2U_3:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf;
 - (void) F2U_channel:(uint32_t*)rgbImageBuf :(uint32_t)pixelNum :(float*)rgbFloatBuf :(int)channel;
 - (void) display:(float*)array :(int)num;

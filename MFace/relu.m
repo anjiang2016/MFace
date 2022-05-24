@@ -9,12 +9,15 @@
 
 @implementation RELU
 
-- (void) forward :(float *)input :(unsigned long)input_len :(float *)output :(unsigned long) output_len{
+- (void) forward{
     int i=0;
+    int input_len=self._input.width*self._input.height*self._input.channel;
     for(i=0;i<input_len;i++){
-        output[i]=0;
-        if(input[i]>0){
-            output[i]=input[i];
+        if(self._input.buff[i]>0){
+            self._output.buff[i]=self._input.buff[i];
+        }
+        else{
+            self._output.buff[i]=0;
         }
     }
 }

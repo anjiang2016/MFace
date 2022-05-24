@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) forward;
 -(void)random_set:(float*)buff :(int)bufflen;
 -(void)free;
+-(float)sum:(float*)buff :(int)bufflen;
+-(void)norm:(float*)buff :(int)bufflen :(int)kernel;
 @property Matrix* _input;
 @property Matrix* _output;
 @end
