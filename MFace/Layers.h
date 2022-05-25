@@ -13,9 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Layers : NSObject
 @property Block * b0;
 @property Block * b1;
--(Layers *)torch_layers:(int)in_channel :(int)out_channel;
+@property NSString * scope;
+-(Layers *)torch_layers:(int)in_channel :(int)out_channel :(NSString *)scope :(int)index;
 -(Matrix *)torch_forward:(Matrix *)input;
 -(void)free;
+-(void)load_weights:(float *)farray :(NSDictionary *)dict;
 @end
 
 NS_ASSUME_NONNULL_END

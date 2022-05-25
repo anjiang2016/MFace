@@ -13,16 +13,25 @@
 @synthesize  conv2;
 @synthesize  bn2;
 @synthesize  downsample1;
--(Block *)torch_block:(int)in_channel :(int)out_channel{
+@synthesize  scope;
+-(Block *)torch_block:(int)in_channel :(int)out_channel :(NSString *)in_scope :(int)index{
+    scope = [NSString stringWithFormat:@"%@.%d",in_scope,index];
     //torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups
-    self.conv1 = [[Conv new] torch_Conv2d:in_channel:out_channel:3:1:1:0:1];
-    self.bn1 = [[Bn new] torch_bn:out_channel];
-    self.conv2 = [[Conv new] torch_Conv2d:out_channel:out_channel:3:1:1:0:1];
-    self.bn2 = [[Bn new] torch_bn:out_channel];
+    self.conv1 = [[Conv new] torch_Conv2d:in_channel:out_channel:3:1:1:0:1:scope:1];
+    self.bn1 = [[Bn new] torch_bn:out_channel:scope:1];
+    self.conv2 = [[Conv new] torch_Conv2d:out_channel:out_channel:3:1:1:0:1:scope:2];
+    self.bn2 = [[Bn new] torch_bn:out_channel:scope:2];
     if(in_channel != out_channel){
-        downsample1 = [[Downsample new] torch_downsample:in_channel :out_channel];
+        downsample1 = [[Downsample new] torch_downsample:in_channel :out_channel:scope:0];
     }
     return self;
+}
+-(void)load_weights:(float *)farray :(NSDictionary *)dict{
+    [conv1 load_weights:farray :dict];
+    [bn1 load_weights:farray :dict];
+    [conv2 load_weights:farray :dict];
+    [bn2 load_weights:farray :dict];
+    [downsample1 load_weights:farray :dict];
 }
 -(Matrix *)torch_forward:(Matrix *)input{
     Matrix * x;

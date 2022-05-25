@@ -11,7 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface model : NSObject
 //-(NSString*)getModel:(float*)farray;
+//-(NSString*)getModel :(float*)farray :(NSString *)model_path :(Net *)net;
 -(NSString*)getModel :(float*)farray :(NSString *)model_path :(Net *)net;
+-(void)pth2array :(NSArray*)array :(NSString *)model_path;
 @end
 
 NS_ASSUME_NONNULL_END

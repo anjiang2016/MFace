@@ -10,12 +10,19 @@
 @implementation Layers
 @synthesize b0;
 @synthesize b1;
+@synthesize scope;
 
--(Layers *)torch_layers:(int)in_channel :(int)out_channel{
+-(Layers *)torch_layers:(int)in_channel :(int)out_channel :(NSString *)in_scope :(int)index{
 //torch_block:(int)in_channel :(int)out_channel
-    self.b0= [[Block new] torch_block:in_channel :out_channel ];
-    self.b1= [[Block new] torch_block:out_channel :out_channel ];
+    scope=[NSString stringWithFormat:@"%@.layer%d",in_scope,index];
+    self.b0= [[Block new] torch_block:in_channel :out_channel :scope :0 ];
+    self.b1= [[Block new] torch_block:out_channel :out_channel :scope :1 ];
     return self;
+}
+-(void)load_weights:(float *)farray :(NSDictionary *)dict{
+    [b0 load_weights:farray :dict];
+    [b1 load_weights:farray :dict];
+    
 }
 -(Matrix *)torch_forward:(Matrix *)input{
     Matrix * x;

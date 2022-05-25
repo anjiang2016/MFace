@@ -17,9 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property int _in_channel;
 @property float * _filter;
 @property float * _bias;
+@property NSString * scope;
 -(Conv *)init:(int)kernel :(int)stride;
 -(void)init_weights;
--(Conv *) torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups;
+-(void)load_weights:(float *)farray :(NSDictionary *)dict;
+-(Conv *) torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups :(NSString *)scope :(int)index;
 -(Matrix *) torch_forward:(Matrix *)input;
 @end
 

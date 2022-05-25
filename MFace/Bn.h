@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property float running_mean;
 @property float running_var;
 @property int num_batches_tracked;
--(Bn *)torch_bn:(int)channel;
+@property NSString* scope;
+-(Bn *)torch_bn:(int)bn_channel :(NSString *)in_scope :(int)index;
 -(Bn *)init:(int)channel;
 -(Matrix *)torch_forward:(Matrix *)input;
 

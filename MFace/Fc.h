@@ -14,9 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property int _in_channel;
 @property float * _filter;
 @property float * _bias;
+@property NSString * scope;
 -(void)init_weights;
--(Fc *) torch_fc:(int)inChannel :(int)outChannel;
+-(void)load_weights:(float *)farray :(NSDictionary *)dict;
+-(Fc *) torch_fc:(int)inChannel :(int)outChannel :(NSString *)in_scope :(int)index;
 -(Matrix *) torch_forward:(Matrix *)input;
+
 @end
 
 NS_ASSUME_NONNULL_END

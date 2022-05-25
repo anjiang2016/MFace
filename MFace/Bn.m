@@ -13,6 +13,7 @@
 @synthesize running_mean;
 @synthesize running_var;
 @synthesize num_batches_tracked;
+@synthesize scope;
 -(Bn * )init:(int)channel{
     self.weight = malloc(sizeof(float)*channel);
     self.bias = malloc(sizeof(float)*channel);
@@ -20,8 +21,21 @@
     [self random_set:self.bias :channel];
     return self;
 }
--(Bn * )torch_bn:(int)channel{
-    return [self init:channel];
+-(void)load_weights:(float *)farray :(NSDictionary *)dict{
+    //net.conv1._filter=farray+[dict[@"model.conv1.weight"] intValue];
+    weight=farray+[dict[[NSString stringWithFormat:@"%@.weight",scope]] intValue];
+    bias=farray+[dict[[NSString stringWithFormat:@"%@.bias",scope]] intValue];
+    running_var=farray[[ dict[[NSString stringWithFormat:@"%@.running_var",scope]] intValue] ];
+    running_mean=farray[[ dict[[NSString stringWithFormat:@"%@.running_mean",scope]] intValue] ];
+}
+-(Bn * )torch_bn:(int)bn_channel :(NSString*)in_scope :(int)index{
+    //scope = [NSString stringWithFormat:@"%@.bn%d",in_scope,index];
+    if([in_scope containsString:@"downsample"]){
+        self.scope = [NSString stringWithFormat:@"%@.%d",in_scope,index];
+    }else{
+        self.scope = [NSString stringWithFormat:@"%@.bn%d",in_scope,index];
+    }
+    return [self init:bn_channel];
 }
 -(Matrix * )torch_forward:(Matrix *)input{
     for(int c=0;c<input.channel;c++){

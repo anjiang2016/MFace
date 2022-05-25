@@ -17,8 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 -(float)sum:(float*)buff :(int)bufflen;
 -(void)norm:(float*)buff :(int)bufflen :(int)kernel;
 -(void)divice_max:(float*)buff :(int)bufflen;
+-(void)load_weights:(float *)farray :(NSDictionary *)dict;
 @property Matrix* _input;
 @property Matrix* _output;
+@property NSString * scope;
 @end
 
 NS_ASSUME_NONNULL_END

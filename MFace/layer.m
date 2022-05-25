@@ -11,6 +11,7 @@
 //(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
 @synthesize _input;
 @synthesize _output;
+@synthesize  scope;
 -(void)random_set:(float*)buff :(int)bufflen{
     for(int i=0;i<bufflen;i++){
         buff[i]=random()/65536.0/65536.0;

@@ -29,6 +29,9 @@
 @synthesize  layer3;
 @synthesize  layer4;
 @synthesize  fc;
+@synthesize  scope;
+@synthesize  model_weight;
+@synthesize  model_dict;
 
 -(Net *)init{
     
@@ -181,15 +184,28 @@
     return image;
     //return rgbImageBuf;
 }
+-(void)load_weights{
+    
+    [self load_pth:[NSString stringWithFormat:@"model_resnet18_triplet_epoch_586.txt"]];
+    [conv1 load_weights:model_weight :model_dict];
+    [bn1 load_weights:model_weight :model_dict];
+    [layer1 load_weights:model_weight :model_dict];
+    [layer2 load_weights:model_weight :model_dict];
+    [layer3 load_weights:model_weight :model_dict];
+    [layer4 load_weights:model_weight :model_dict];
+    [fc load_weights:model_weight :model_dict];
+    NSLog(@"load weigths done...");
+}
 -(Net *)torch_init{
+    self.scope=[NSString stringWithFormat:@"model"];
     //torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups
-    self.conv1 =[[Conv new] torch_Conv2d:3:3:7:1:3:0:1];
-    self.bn1 = [[Bn new] torch_bn:3];
-    self.layer1 = [[Layers new] torch_layers:3:3];
-    self.layer2 = [[Layers new] torch_layers:3:6];
-    self.layer3 = [[Layers new] torch_layers:6:6];
-    self.layer4 = [[Layers new] torch_layers:6:6];
-    self.fc = [[Fc new] torch_fc:6*200*200:16];
+    self.conv1 =[[Conv new] torch_Conv2d:3:64:7:1:3:0:1:scope:1];
+    self.bn1 = [[Bn new] torch_bn:64:scope:1];
+    self.layer1 = [[Layers new] torch_layers:64:64:scope:1];
+    self.layer2 = [[Layers new] torch_layers:64:128:scope:2];
+    self.layer3 = [[Layers new] torch_layers:128:256:scope:3];
+    self.layer4 = [[Layers new] torch_layers:256:512:scope:4];
+    self.fc = [[Fc new] torch_fc:512*1*1:128:scope:1];
     return self;
 }
 - (Matrix *)torch_passlayer:(Matrix * )input{
@@ -206,5 +222,48 @@
     */
     return x;
 }
-
+-(NSString*)load_pth:(NSString *)model_path
+{
+    
+    //模型文件的路径
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"w2.pth" ofType:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:model_path ofType:nil];
+    NSLog(@"path = %@,%s", path,__FILE__);
+    
+    NSArray *fileData;
+    NSError *error;
+        
+    //读取file文件并把内容根据换行符分割后赋值给NSArray
+    fileData = [[NSString stringWithContentsOfFile:path
+                                              encoding:NSUTF8StringEncoding
+                                                 error:&error]
+                    componentsSeparatedByString:@" "]; // 分割符为空格
+        
+    //NSLog(@"fileData = %@", fileData);
+    // fileData.count();
+    unsigned long  count = [fileData count]-1;
+    model_weight = malloc(sizeof(float)*count);
+    NSArray * keys=[NSArray new];
+    NSArray * values=[NSArray new];
+    for(int i=0;i<count;i++){
+        model_weight[i]=[[fileData objectAtIndex:i] floatValue];
+    }
+    for(int i=0;i<count;i++)
+    {
+        NSString *tmp = [fileData objectAtIndex:i];
+        //NSLog([fileData objectAtIndex:i]);
+        keys = [keys arrayByAddingObject:tmp];
+        //NSLog(@"%d",[[fileData objectAtIndex:i+1] intValue]);
+        
+        NSRange theRange;
+        theRange.location = i+2;
+        theRange.length =[[fileData objectAtIndex:i+1] intValue];
+        NSArray * weightArray = [fileData subarrayWithRange:theRange];
+        //values = [values arrayByAddingObject:weightArray];
+        values = [values arrayByAddingObject:[NSString stringWithFormat:@"%d",i+2]];
+        i=i+1+[[fileData objectAtIndex:i+1] floatValue];
+    }
+    model_dict = [NSDictionary dictionaryWithObjects:values forKeys:keys];
+    return path;
+}
 @end

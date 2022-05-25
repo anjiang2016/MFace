@@ -17,7 +17,7 @@
 @synthesize _padding;
 @synthesize _in_channel;
 @synthesize _out_channel;
-
+@synthesize scope;
 
 - (void) forward{
 //- (void) conv4:(float*)filter :(float)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel
@@ -52,11 +52,21 @@
     self._bias = malloc(self._out_channel*sizeof(float));
     [self random_set:self._bias :self._out_channel];
 }
+-(void)load_weights:(float *)farray :(NSDictionary *)dict{
+    //net.conv1._filter=farray+[dict[@"model.conv1.weight"] intValue];
+    _filter=farray+[dict[[NSString stringWithFormat:@"%@.weight",scope]] intValue];
+    //_bias=farray+[dict[[NSString stringWithFormat:@"%@.bias",scope]] intValue];
+}
 //Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
--(Conv *) torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups{
+-(Conv *) torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups:(NSString*)in_scope :(int)index{
     self._out_channel=outChannel;
     self._in_channel=inChannel;
     self._padding = padding;
+    if([in_scope containsString:@"downsample"]){
+        self.scope = [NSString stringWithFormat:@"%@.%d",in_scope,index];
+    }else{
+        self.scope = [NSString stringWithFormat:@"%@.conv%d",in_scope,index];
+    }
     //self._kernel_size = kernel_size;
     //self._stride = stride;
     return [self init:kernel_size :stride];

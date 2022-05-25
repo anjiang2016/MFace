@@ -14,9 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Downsample : NSObject
 @property Conv* conv1;
 @property Bn* bn1;
--(Downsample *)torch_downsample:(int)in_channel:(int)out_channel;
+@property NSString * scope;
+-(Downsample *)torch_downsample:(int)in_channel_ds:(int)out_channel_ds :(NSString*)in_scope :(int)index;
 -(Matrix *)torch_forward:(Matrix *)input;
 -(void)free;
+-(void)load_weights:(float *)farray :(NSDictionary *)dict;
 @end
 
 NS_ASSUME_NONNULL_END

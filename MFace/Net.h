@@ -35,12 +35,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property Layers * layer3;
 @property Layers * layer4;
 @property Fc * fc;
+@property NSString * scope;
+@property float * model_weight;
+@property NSDictionary * model_dict;
+
+
 
 
 -(Net *)init;
 -(Net *)torch_init;
 -(UIImage* )forward:(UIImage*)image;
 -(Matrix * )passlayer:(Matrix *)input;
+-(NSString*)load_pth:(NSString *)model_path;
+-(void)load_weights;
 -(void)free;
 @end
 

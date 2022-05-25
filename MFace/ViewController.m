@@ -123,6 +123,7 @@
    
     //Net * net = [[Net new] init];
     Net * net = [[Net new] torch_init];
+    [net load_weights];
     self.image_1.image=[net forward:self.image];
     [net free];
     

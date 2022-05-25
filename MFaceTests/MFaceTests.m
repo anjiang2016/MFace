@@ -45,6 +45,36 @@
     [input add:input];
     sum=[[Layer new] sum:input.buff :len];
     XCTAssert(sum==len,@"sum=%f of norm must be %d",sum,len);
+    
+    NSString *model_path=[NSString stringWithFormat:@"model_resnet18_triplet_epoch_586.txt"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:model_path ofType:nil];
+    NSLog(@"path = %@,%s", path,__FILE__);
+    
+    NSArray *fileData;
+    NSError *error;
+        
+    //读取file文件并把内容根据换行符分割后赋值给NSArray
+    fileData = [[NSString stringWithContentsOfFile:path
+                                              encoding:NSUTF8StringEncoding
+                                                 error:&error]
+                    componentsSeparatedByString:@" "]; // 分割符为空格
+        
+    //NSLog(@"fileData = %@", fileData);
+    // fileData.count();
+    unsigned long  count = [fileData count];
+    // 因为文件还有最后一行，所以这里把行数减1
+    count = count -1;
+    for(int i=0;i<count;i++)
+    {
+        //farray[i]=[[fileData objectAtIndex:i] floatValue];
+        NSString *tmp = [fileData objectAtIndex:i];
+        NSLog([fileData objectAtIndex:i]);
+        NSLog(@"%d",[[fileData objectAtIndex:i+1] intValue]);
+        i=i+1+[[fileData objectAtIndex:i+1] floatValue];
+        //[[fileData objectAtIndex:i] floatValue];
+        //NSLog(@"farray[%d]=%@",i,[fileData objectAtIndex:i]);
+    }
+    //[NSDictionary dictionaryWithObjects
 
 }
 

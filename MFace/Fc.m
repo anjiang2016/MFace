@@ -12,6 +12,7 @@
 @synthesize  _in_channel;
 @synthesize  _filter;
 @synthesize  _bias;
+@synthesize  scope;
 -(void)init_weights{
     //random init filter
     int len_filter = self._out_channel*self._in_channel;
@@ -24,7 +25,13 @@
     self._bias = malloc(self._out_channel*sizeof(float));
     [self random_set:self._bias :self._out_channel];
 }
--(Fc *) torch_fc:(int)inChannel :(int)outChannel{
+-(void)load_weights:(float *)farray :(NSDictionary *)dict{
+    //net.conv1._filter=farray+[dict[@"model.conv1.weight"] intValue];
+    _filter=farray+[dict[[NSString stringWithFormat:@"%@.weight",scope]] intValue];
+    _bias=farray+[dict[[NSString stringWithFormat:@"%@.bias",scope]] intValue];
+}
+-(Fc *) torch_fc:(int)inChannel :(int)outChannel :(NSString *)in_scope :(int)index{
+    scope = [NSString stringWithFormat:@"%@.fc",in_scope];
     self._in_channel=inChannel;
     self._out_channel=outChannel;
     [self init_weights];
