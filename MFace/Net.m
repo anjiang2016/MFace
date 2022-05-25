@@ -22,6 +22,13 @@
 @synthesize _pool_layer2;
 @synthesize _pool_layer3;
 
+@synthesize  conv1;
+@synthesize  bn1;
+@synthesize  layer1;
+@synthesize  layer2;
+@synthesize  layer3;
+@synthesize  layer4;
+@synthesize  fc;
 
 -(Net *)init{
     
@@ -146,14 +153,15 @@
     int in_channel=3;
     int pixNumber = (uint32_t)imageWidth*(uint32_t)imageHeight;
     float* rgbFloatBuf = (float*)malloc(pixNumber*in_channel*sizeof(float));
-    
     [p U2F_3 :rgbIntBuf :pixNumber :in_channel :rgbFloatBuf];
-    
-    
-    
-    
     Matrix * input = [[Matrix alloc] init:rgbFloatBuf :imageWidth :imageHeight :in_channel];
-    Matrix * result = [self passlayer:input];
+    
+    
+    // forward the net
+    //Matrix * result = [self passlayer:input];
+    Matrix * result = [self torch_passlayer:input];
+    
+    // show result
     // float 2 RGBA
     int outWidth=result.width;
     int outHeight=result.height;
@@ -173,4 +181,30 @@
     return image;
     //return rgbImageBuf;
 }
+-(Net *)torch_init{
+    //torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups
+    self.conv1 =[[Conv new] torch_Conv2d:3:3:7:1:3:0:1];
+    self.bn1 = [[Bn new] torch_bn:3];
+    self.layer1 = [[Layers new] torch_layers:3:3];
+    self.layer2 = [[Layers new] torch_layers:3:6];
+    self.layer3 = [[Layers new] torch_layers:6:6];
+    self.layer4 = [[Layers new] torch_layers:6:6];
+    self.fc = [[Fc new] torch_fc:6*200*200:16];
+    return self;
+}
+- (Matrix *)torch_passlayer:(Matrix * )input{
+    //(Matrix *) torch_forward:(Matrix *)input
+    //return input;
+    Matrix * x=nil;
+    x = [self.conv1 torch_forward:input];
+    x = [self.bn1 torch_forward:x];
+    x = [self.layer1 torch_forward:x];
+    x = [self.layer2 torch_forward:x];
+    x = [self.layer3 torch_forward:x];
+    x = [self.layer4 torch_forward:x];
+    /*x = [self.fc torch_forward:x];
+    */
+    return x;
+}
+
 @end

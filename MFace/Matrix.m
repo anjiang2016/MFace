@@ -19,6 +19,14 @@
     self.channel = channel;
     return self;
 }
+-(Matrix *)add:(Matrix *)input{
+    int len = width*height*channel;
+    for(int i=0;i<len;i++){
+        buff[i]=buff[i]+input.buff[i];
+    }
+    return self;
+}
+
 -(void)free{
     if(self.buff != nil){
         free(self.buff);

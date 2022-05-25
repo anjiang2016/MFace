@@ -6,7 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import <TargetConditionals.h>
+#if !TARGET_OS_OSX
+    #import <UIKit/UIKit.h>
+#else
+#import <AppKit/AppKit.h>
+#endif
+//#define UIImage NSImage
 //#import <Kernel/libkern/crypto/rand.h>
 
 NS_ASSUME_NONNULL_BEGIN

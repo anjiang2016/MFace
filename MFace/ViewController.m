@@ -121,7 +121,8 @@
     //p.passlayer(image,weightsarray,kernel_size)
     //self.image_1.image=[p passlayer:self.image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
    
-    Net * net = [[Net new] init];
+    //Net * net = [[Net new] init];
+    Net * net = [[Net new] torch_init];
     self.image_1.image=[net forward:self.image];
     [net free];
     

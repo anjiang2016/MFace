@@ -11,6 +11,9 @@
 #import "Pooling.h"
 #import "Conv.h"
 #import "ImageProcess.h"
+#import "Bn.h"
+#import "Fc.h"
+#import "Layers.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Net : NSObject
@@ -23,7 +26,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property Pooling * _pool_layer2;
 @property RELU * _relu_layer3;
 @property Pooling * _pool_layer3;
+
+
+@property Conv * conv1;
+@property Bn * bn1;
+@property Layers * layer1;
+@property Layers * layer2;
+@property Layers * layer3;
+@property Layers * layer4;
+@property Fc * fc;
+
+
 -(Net *)init;
+-(Net *)torch_init;
 -(UIImage* )forward:(UIImage*)image;
 -(Matrix * )passlayer:(Matrix *)input;
 -(void)free;

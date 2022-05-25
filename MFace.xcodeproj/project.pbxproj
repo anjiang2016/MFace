@@ -27,9 +27,40 @@
 		6784630A283C843C00B212A8 /* Net.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846309283C843C00B212A8 /* Net.m */; };
 		6784630C283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6784630B283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt */; };
 		6784630E283D188900B212A8 /* load_save_pth.py in Resources */ = {isa = PBXBuildFile; fileRef = 6784630D283D188900B212A8 /* load_save_pth.py */; };
+		67846311283DD32D00B212A8 /* Bn.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846310283DD32D00B212A8 /* Bn.m */; };
+		67846314283DD34100B212A8 /* Fc.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846313283DD34100B212A8 /* Fc.m */; };
+		67846317283DD3B100B212A8 /* Layers.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846316283DD3B100B212A8 /* Layers.m */; };
+		6784631A283DE67300B212A8 /* Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846319283DE67300B212A8 /* Block.m */; };
+		6784638D283E0FEB00B212A8 /* MFaceUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6784638C283E0FEB00B212A8 /* MFaceUITests.m */; };
+		6784638F283E0FEB00B212A8 /* MFaceUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6784638E283E0FEB00B212A8 /* MFaceUITestsLaunchTests.m */; };
+		67846393283E10AA00B212A8 /* Conv.m in Sources */ = {isa = PBXBuildFile; fileRef = 67846302283C5D8700B212A8 /* Conv.m */; };
+		67846394283E146400B212A8 /* ImageProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 67631F52255C0C98000E36F9 /* ImageProcess.m */; };
+		67846395283E146900B212A8 /* Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 678462F5283BB01800B212A8 /* Layer.m */; };
+		67846396283E147200B212A8 /* Matrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 678462FF283BB8DD00B212A8 /* Matrix.m */; };
+		6784639E283E15AB00B212A8 /* MFaceUITests1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6784639D283E15AB00B212A8 /* MFaceUITests1.m */; };
+		678463A0283E15AB00B212A8 /* MFaceUITests1LaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6784639F283E15AB00B212A8 /* MFaceUITests1LaunchTests.m */; };
+		678463AD283E167800B212A8 /* MFaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 678463AC283E167800B212A8 /* MFaceTests.m */; };
+		678463B5283E20D800B212A8 /* Downsample.m in Sources */ = {isa = PBXBuildFile; fileRef = 678463B4283E20D800B212A8 /* Downsample.m */; };
 		67853C08255E5D40003DEA3A /* FileOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C07255E5D40003DEA3A /* FileOperate.m */; };
 		67853C0C255E8B10003DEA3A /* model.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C0B255E8B10003DEA3A /* model.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		678463A1283E15AB00B212A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67631EF8255BA68D000E36F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 67631EFF255BA68D000E36F9;
+			remoteInfo = MFace;
+		};
+		678463AE283E167800B212A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67631EF8255BA68D000E36F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 67631EFF255BA68D000E36F9;
+			remoteInfo = MFace;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		67408DBF255EA43200CA199B /* w2.pth */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = w2.pth; path = "../../dlib_detect_recognize_display_show-master/w2.pth"; sourceTree = "<group>"; };
@@ -68,6 +99,24 @@
 		67846309283C843C00B212A8 /* Net.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Net.m; sourceTree = "<group>"; };
 		6784630B283D04AE00B212A8 /* model_resnet18_triplet_epoch_586.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = model_resnet18_triplet_epoch_586.txt; sourceTree = "<group>"; };
 		6784630D283D188900B212A8 /* load_save_pth.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = load_save_pth.py; sourceTree = "<group>"; };
+		6784630F283DD32D00B212A8 /* Bn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bn.h; sourceTree = "<group>"; };
+		67846310283DD32D00B212A8 /* Bn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bn.m; sourceTree = "<group>"; };
+		67846312283DD34100B212A8 /* Fc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fc.h; sourceTree = "<group>"; };
+		67846313283DD34100B212A8 /* Fc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Fc.m; sourceTree = "<group>"; };
+		67846315283DD3B100B212A8 /* Layers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Layers.h; sourceTree = "<group>"; };
+		67846316283DD3B100B212A8 /* Layers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Layers.m; sourceTree = "<group>"; };
+		67846318283DE67300B212A8 /* Block.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Block.h; sourceTree = "<group>"; };
+		67846319283DE67300B212A8 /* Block.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Block.m; sourceTree = "<group>"; };
+		6784638A283E0FEB00B212A8 /* MFaceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MFaceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6784638C283E0FEB00B212A8 /* MFaceUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFaceUITests.m; sourceTree = "<group>"; };
+		6784638E283E0FEB00B212A8 /* MFaceUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFaceUITestsLaunchTests.m; sourceTree = "<group>"; };
+		6784639B283E15AB00B212A8 /* MFaceUITests1.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MFaceUITests1.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6784639D283E15AB00B212A8 /* MFaceUITests1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFaceUITests1.m; sourceTree = "<group>"; };
+		6784639F283E15AB00B212A8 /* MFaceUITests1LaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFaceUITests1LaunchTests.m; sourceTree = "<group>"; };
+		678463AA283E167800B212A8 /* MFaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MFaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		678463AC283E167800B212A8 /* MFaceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFaceTests.m; sourceTree = "<group>"; };
+		678463B3283E20D800B212A8 /* Downsample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downsample.h; sourceTree = "<group>"; };
+		678463B4283E20D800B212A8 /* Downsample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downsample.m; sourceTree = "<group>"; };
 		67853C06255E5D40003DEA3A /* FileOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileOperate.h; sourceTree = "<group>"; };
 		67853C07255E5D40003DEA3A /* FileOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileOperate.m; sourceTree = "<group>"; };
 		67853C0A255E8B10003DEA3A /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
@@ -76,6 +125,27 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		67631EFD255BA68D000E36F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67846387283E0FEB00B212A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67846398283E15AB00B212A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		678463A7283E167800B212A8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -91,6 +161,9 @@
 				6784630D283D188900B212A8 /* load_save_pth.py */,
 				67408DC3255EA65900CA199B /* w2.txt */,
 				67631F02255BA68D000E36F9 /* MFace */,
+				6784638B283E0FEB00B212A8 /* MFaceUITests */,
+				6784639C283E15AB00B212A8 /* MFaceUITests1 */,
+				678463AB283E167800B212A8 /* MFaceTests */,
 				67631F01255BA68D000E36F9 /* Products */,
 				67846304283C6A3300B212A8 /* Frameworks */,
 			);
@@ -100,6 +173,9 @@
 			isa = PBXGroup;
 			children = (
 				67631F00255BA68D000E36F9 /* MFace.app */,
+				6784638A283E0FEB00B212A8 /* MFaceUITests.xctest */,
+				6784639B283E15AB00B212A8 /* MFaceUITests1.xctest */,
+				678463AA283E167800B212A8 /* MFaceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,6 +186,8 @@
 				678462F7283BB01800B212A8 /* Layer.h */,
 				678462F5283BB01800B212A8 /* Layer.m */,
 				678462F6283BB01800B212A8 /* RELU.h */,
+				67846318283DE67300B212A8 /* Block.h */,
+				67846319283DE67300B212A8 /* Block.m */,
 				678462F2283BB01800B212A8 /* RELU.m */,
 				678462F3283BB01800B212A8 /* Scale.h */,
 				678462F4283BB01800B212A8 /* Scale.m */,
@@ -143,6 +221,14 @@
 				67846302283C5D8700B212A8 /* Conv.m */,
 				67846308283C843C00B212A8 /* Net.h */,
 				67846309283C843C00B212A8 /* Net.m */,
+				6784630F283DD32D00B212A8 /* Bn.h */,
+				67846310283DD32D00B212A8 /* Bn.m */,
+				67846312283DD34100B212A8 /* Fc.h */,
+				67846313283DD34100B212A8 /* Fc.m */,
+				67846315283DD3B100B212A8 /* Layers.h */,
+				67846316283DD3B100B212A8 /* Layers.m */,
+				678463B3283E20D800B212A8 /* Downsample.h */,
+				678463B4283E20D800B212A8 /* Downsample.m */,
 			);
 			path = MFace;
 			sourceTree = "<group>";
@@ -153,6 +239,32 @@
 				67846305283C6A3400B212A8 /* libsystem_kernel.tbd */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6784638B283E0FEB00B212A8 /* MFaceUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6784638C283E0FEB00B212A8 /* MFaceUITests.m */,
+				6784638E283E0FEB00B212A8 /* MFaceUITestsLaunchTests.m */,
+			);
+			path = MFaceUITests;
+			sourceTree = "<group>";
+		};
+		6784639C283E15AB00B212A8 /* MFaceUITests1 */ = {
+			isa = PBXGroup;
+			children = (
+				6784639D283E15AB00B212A8 /* MFaceUITests1.m */,
+				6784639F283E15AB00B212A8 /* MFaceUITests1LaunchTests.m */,
+			);
+			path = MFaceUITests1;
+			sourceTree = "<group>";
+		};
+		678463AB283E167800B212A8 /* MFaceTests */ = {
+			isa = PBXGroup;
+			children = (
+				678463AC283E167800B212A8 /* MFaceTests.m */,
+			);
+			path = MFaceTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +287,59 @@
 			productReference = 67631F00255BA68D000E36F9 /* MFace.app */;
 			productType = "com.apple.product-type.application";
 		};
+		67846389283E0FEB00B212A8 /* MFaceUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67846390283E0FEB00B212A8 /* Build configuration list for PBXNativeTarget "MFaceUITests" */;
+			buildPhases = (
+				67846386283E0FEB00B212A8 /* Sources */,
+				67846387283E0FEB00B212A8 /* Frameworks */,
+				67846388283E0FEB00B212A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MFaceUITests;
+			productName = MFaceUITests;
+			productReference = 6784638A283E0FEB00B212A8 /* MFaceUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		6784639A283E15AB00B212A8 /* MFaceUITests1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 678463A3283E15AB00B212A8 /* Build configuration list for PBXNativeTarget "MFaceUITests1" */;
+			buildPhases = (
+				67846397283E15AB00B212A8 /* Sources */,
+				67846398283E15AB00B212A8 /* Frameworks */,
+				67846399283E15AB00B212A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				678463A2283E15AB00B212A8 /* PBXTargetDependency */,
+			);
+			name = MFaceUITests1;
+			productName = MFaceUITests1;
+			productReference = 6784639B283E15AB00B212A8 /* MFaceUITests1.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		678463A9283E167800B212A8 /* MFaceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 678463B0283E167800B212A8 /* Build configuration list for PBXNativeTarget "MFaceTests" */;
+			buildPhases = (
+				678463A6283E167800B212A8 /* Sources */,
+				678463A7283E167800B212A8 /* Frameworks */,
+				678463A8283E167800B212A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				678463AF283E167800B212A8 /* PBXTargetDependency */,
+			);
+			name = MFaceTests;
+			productName = MFaceTests;
+			productReference = 678463AA283E167800B212A8 /* MFaceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -185,6 +350,17 @@
 				TargetAttributes = {
 					67631EFF255BA68D000E36F9 = {
 						CreatedOnToolsVersion = 12.1;
+					};
+					67846389283E0FEB00B212A8 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					6784639A283E15AB00B212A8 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 67631EFF255BA68D000E36F9;
+					};
+					678463A9283E167800B212A8 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 67631EFF255BA68D000E36F9;
 					};
 				};
 			};
@@ -202,6 +378,9 @@
 			projectRoot = "";
 			targets = (
 				67631EFF255BA68D000E36F9 /* MFace */,
+				67846389283E0FEB00B212A8 /* MFaceUITests */,
+				6784639A283E15AB00B212A8 /* MFaceUITests1 */,
+				678463A9283E167800B212A8 /* MFaceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -221,6 +400,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		67846388283E0FEB00B212A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67846399283E15AB00B212A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		678463A8283E167800B212A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -228,9 +428,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67846314283DD34100B212A8 /* Fc.m in Sources */,
 				678462FD283BB5FF00B212A8 /* Pooling.m in Sources */,
 				67631F53255C0C98000E36F9 /* ImageProcess.m in Sources */,
 				67846300283BB8DD00B212A8 /* Matrix.m in Sources */,
+				6784631A283DE67300B212A8 /* Block.m in Sources */,
 				6784630A283C843C00B212A8 /* Net.m in Sources */,
 				67846303283C5D8700B212A8 /* Conv.m in Sources */,
 				67631F0B255BA68D000E36F9 /* ViewController.m in Sources */,
@@ -239,14 +441,60 @@
 				678462F9283BB01800B212A8 /* Scale.m in Sources */,
 				678462F8283BB01800B212A8 /* RELU.m in Sources */,
 				678462FA283BB01800B212A8 /* Layer.m in Sources */,
+				678463B5283E20D800B212A8 /* Downsample.m in Sources */,
 				67853C08255E5D40003DEA3A /* FileOperate.m in Sources */,
+				67846317283DD3B100B212A8 /* Layers.m in Sources */,
 				67631F57255C0D27000E36F9 /* utils.m in Sources */,
 				67631F16255BA68F000E36F9 /* main.m in Sources */,
 				67631F08255BA68D000E36F9 /* SceneDelegate.m in Sources */,
+				67846311283DD32D00B212A8 /* Bn.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67846386283E0FEB00B212A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67846396283E147200B212A8 /* Matrix.m in Sources */,
+				67846395283E146900B212A8 /* Layer.m in Sources */,
+				67846394283E146400B212A8 /* ImageProcess.m in Sources */,
+				67846393283E10AA00B212A8 /* Conv.m in Sources */,
+				6784638D283E0FEB00B212A8 /* MFaceUITests.m in Sources */,
+				6784638F283E0FEB00B212A8 /* MFaceUITestsLaunchTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67846397283E15AB00B212A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6784639E283E15AB00B212A8 /* MFaceUITests1.m in Sources */,
+				678463A0283E15AB00B212A8 /* MFaceUITests1LaunchTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		678463A6283E167800B212A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				678463AD283E167800B212A8 /* MFaceTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		678463A2283E15AB00B212A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 67631EFF255BA68D000E36F9 /* MFace */;
+			targetProxy = 678463A1283E15AB00B212A8 /* PBXContainerItemProxy */;
+		};
+		678463AF283E167800B212A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 67631EFF255BA68D000E36F9 /* MFace */;
+			targetProxy = 678463AE283E167800B212A8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		67631F0C255BA68D000E36F9 /* Main.storyboard */ = {
@@ -424,6 +672,114 @@
 			};
 			name = Release;
 		};
+		67846391283E0FEB00B212A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WUY2UVM5F8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ruyi.MFaceUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+			};
+			name = Debug;
+		};
+		67846392283E0FEB00B212A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WUY2UVM5F8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ruyi.MFaceUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+			};
+			name = Release;
+		};
+		678463A4283E15AB00B212A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WUY2UVM5F8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ruyi.MFaceUITests1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MFace;
+			};
+			name = Debug;
+		};
+		678463A5283E15AB00B212A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WUY2UVM5F8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ruyi.MFaceUITests1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MFace;
+			};
+			name = Release;
+		};
+		678463B1283E167800B212A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WUY2UVM5F8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ruyi.MFaceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MFace.app/MFace";
+			};
+			name = Debug;
+		};
+		678463B2283E167800B212A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WUY2UVM5F8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ruyi.MFaceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MFace.app/MFace";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -441,6 +797,33 @@
 			buildConfigurations = (
 				67631F1A255BA68F000E36F9 /* Debug */,
 				67631F1B255BA68F000E36F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		67846390283E0FEB00B212A8 /* Build configuration list for PBXNativeTarget "MFaceUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67846391283E0FEB00B212A8 /* Debug */,
+				67846392283E0FEB00B212A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		678463A3283E15AB00B212A8 /* Build configuration list for PBXNativeTarget "MFaceUITests1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				678463A4283E15AB00B212A8 /* Debug */,
+				678463A5283E15AB00B212A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		678463B0283E167800B212A8 /* Build configuration list for PBXNativeTarget "MFaceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				678463B1283E167800B212A8 /* Debug */,
+				678463B2283E167800B212A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

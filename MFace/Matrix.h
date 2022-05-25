@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property int height;
 @property int channel;
 -(Matrix *)init:(float *)buff :(int)width :(int)height :(int)channel;
+-(Matrix *)add:(Matrix *)input;
 -(void)free;
 @end
 

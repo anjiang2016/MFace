@@ -16,6 +16,16 @@
         buff[i]=random()/65536.0/65536.0;
     }
 }
+-(void)divice_max:(float*)buff :(int)bufflen{
+    float max = 0;
+    for(int i=0;i<bufflen;i++){
+        if(buff[i]>max)
+            max=buff[i];
+    }
+    for(int i=0;i<bufflen;i++){
+        buff[i]/=max;
+    }
+}
 -(float)sum:(float*)buff :(int)bufflen{
     float sum = 0;
     for(int i=0;i<bufflen;i++){
@@ -24,8 +34,8 @@
     return sum;
 }
 
--(void)norm:(float*)buff :(int)bufflen :(int)kernel{
-    int norm_len=kernel*kernel;
+-(void)norm:(float*)buff :(int)bufflen :(int)norm_len{
+    //int norm_len=kernel*kernel;
     for(int j=0;j<bufflen/norm_len;j++){
         float sum = [self sum:buff+j*norm_len :norm_len];
         for(int i=0;i<norm_len;i++){
