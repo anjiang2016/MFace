@@ -91,6 +91,8 @@
     }
     NSLog(@"%d",[fileData count]);
     */
+    //[fileData release];
+    
     return path;
 }
 -(NSArray *)pth2array :(NSArray*)array :(NSString *)model_path

@@ -16,7 +16,7 @@
     //-(void)torch_max_pooling:(int)kernel :(int)padding :(int)stride :(float*)input :(int)in_width :(int)in_height :(int)in_channel :(float*)output
     Matrix * output = [[Matrix new] init:malloc(sizeof(double)*out_width*out_height*out_channel) :out_width :out_height :out_channel];
     [[ImageProcess new] torch_max_pooling:kernel :padding :stride :input.buff :input.width :input.height :input.channel :output.buff];
-    [input free];
+    if(input.buff!=NULL){free(input.buff);input.buff=NULL;}
     return output;
 }
 @end

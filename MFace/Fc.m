@@ -27,7 +27,10 @@
 }
 -(void)load_weights:(float *)farray :(NSDictionary *)dict{
     //net.conv1._filter=farray+[dict[@"model.conv1.weight"] intValue];
+    if(_filter != NULL){free(_filter);_filter=NULL;}
     _filter=farray+[dict[[NSString stringWithFormat:@"%@.weight",scope]] intValue];
+    
+    if(_bias != NULL){free(_bias);_bias=NULL;}
     _bias=farray+[dict[[NSString stringWithFormat:@"%@.bias",scope]] intValue];
 }
 -(Fc *) torch_fc:(int)inChannel :(int)outChannel :(NSString *)in_scope :(int)index{
@@ -54,7 +57,9 @@
 }
 -(void)free{
     free(self._filter);
+    _filter=NULL;
     free(self._bias);
+    _bias=NULL;
     [self._output free];
 }
 

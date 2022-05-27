@@ -30,7 +30,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *textarea;
 @property (nonatomic) UIImagePickerController *camera;
 @property UIImage * image;
-
+@property Net * net;
 
 
 -(void) switchMOVtoMP:(NSURL *)inputURL;
@@ -97,24 +97,26 @@
     
     NSLog(@"use model to process image");
     self.v_textview.text = [self.v_textview.text stringByAppendingString:@"\n正在处理..."];
-    if(self.image == NULL){
-        self.image = self.image_1.image;
-    }
+    //if(self.image == NULL){
+    //    self.image = self.image_1.image;
+    //}
+    self.image = self.image_1.image;
+    
     [self calulateImageFileSize:self.image];
     ImageProcess *p = [ImageProcess new];
     //resize
     CGSize smallsize = CGSizeMake(256, 256);
     self.image=[p scaleToSize:self.image :smallsize];
-    
+    /*测试模型加载
+     
     // init model
     model * Md = [model new];
     float weightsarray[3*64*7*7];
     float * weights = malloc(11252040*sizeof(float));
     NSString* filename_tmp = [Md getModel:weights :[NSString stringWithFormat:@"model_resnet18_triplet_epoch_586.txt"] :[Net new]];
-    
-    
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[0]=%f",weightsarray[0]]];
     [self insert2TextView:[NSString stringWithFormat:@"\n weightsarray[6]=%f",weightsarray[6]]];
+    */
     
     // 前向计算过程
     //(UIImage* )passlayer:(UIImage*)image :(float*)weightsarray :(int)kernel_size :(int)bias :(int)padding :(int)stride
@@ -122,10 +124,10 @@
     //self.image_1.image=[p passlayer:self.image:weightsarray:kernel_size:bias:padding:stride:in_channel:out_channel];
    
     //Net * net = [[Net new] init];
-    Net * net = [[Net new] torch_init];
-    [net load_weights];
-    self.image_1.image=[net forward:self.image];
-    [net free];
+    //Net * net = [[Net new] torch_init];
+    //[net load_weights];
+    self.image_1.image=[_net forward:self.image];
+    //[net free];
     
     // 将处理后的图片显示到use model 按钮的背景里
     //self useModel setBackgroundImage:slef.image_1.image];
@@ -209,6 +211,9 @@
         // 设置主页控件的背景颜色
     self.v_textview.backgroundColor = [UIColor grayColor];
     self.v_imageview.backgroundColor = [UIColor grayColor];
+    //模型初始化
+    _net = [[Net new] torch_init];
+    [_net load_weights];
     
 }
 

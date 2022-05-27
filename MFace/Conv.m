@@ -32,12 +32,14 @@
     self._stride = stride;
     //random init filter
     int len_filter = self._output.channel*self._input.channel*self._kernel_size*self._kernel_size;
+    if(_filter != NULL){free(_filter);_filter=NULL;}
     self._filter = malloc(len_filter*sizeof(float));
     [self random_set:self._filter :len_filter];
     // evevy kernel_size*kernel_size norm,
     [self norm:self._filter :len_filter :self._kernel_size*self._kernel_size];
     
     //random init bias
+    if(_bias != NULL){free(_bias);_bias=NULL;}
     self._bias = malloc(self._output.channel*sizeof(float));
     [self random_set:self._bias :self._output.channel];
     return self;
@@ -45,17 +47,21 @@
 -(void )init_weights{
     //random init filter
     int len_filter = self._out_channel*self._in_channel*self._kernel_size*self._kernel_size;
+    if(_filter != NULL){free(_filter);_filter=NULL;}
+    
     self._filter = malloc(len_filter*sizeof(float));
     [self random_set:self._filter :len_filter];
     // evevy kernel_size*kernel_size norm,
     [self norm:self._filter :len_filter :self._kernel_size*self._kernel_size];
     
     //random init bias
+    if(_bias != NULL){free(_bias);_bias=NULL;}
     self._bias = malloc(self._out_channel*sizeof(float));
     [self zero_set:self._bias :self._out_channel];
 }
 -(void)load_weights:(float *)farray :(NSDictionary *)dict{
     //net.conv1._filter=farray+[dict[@"model.conv1.weight"] intValue];
+    if(_filter != NULL){free(_filter);_filter=NULL;}
     _filter=farray+[dict[[NSString stringWithFormat:@"%@.weight",scope]] intValue];
     //_bias=farray+[dict[[NSString stringWithFormat:@"%@.bias",scope]] intValue];
 }
@@ -81,6 +87,7 @@
     int out_width = (input.width+2*self._padding-self._kernel_size)/self._stride + 1 ;
     int out_height = (input.height+2*self._padding-self._kernel_size)/self._stride + 1 ;
     int out_pixel_number = out_width * out_height * self._out_channel;
+    if(self._output.buff != NULL){free(self._output.buff);self._output.buff=NULL;}
     self._output = [[Matrix  new] init:malloc(sizeof(float)*out_pixel_number) :out_width :out_height :self._out_channel ];
     self._input = input;
     
@@ -92,7 +99,9 @@
 }
 -(void)free{
     free(self._filter);
+    self._filter=NULL;
     free(self._bias);
+    self._bias=NULL;
     [self._output free];
     
 }

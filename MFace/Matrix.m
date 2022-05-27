@@ -29,8 +29,9 @@
 }
 
 -(void)free{
-    if(self.buff != nil){
+    if(self.buff != NULL){
         free(self.buff);
+        buff=NULL;
     }
 
 }
@@ -95,6 +96,7 @@
             }
         }
     }
+    //free(self.buff);
     return tmp;
 }
 -(UIImage *)show{
@@ -111,6 +113,7 @@
     // change the uint_32 array to UIImage for show
     //image=[self array2UIImage:rgbImageBuf:image];
     image=[p array2UIImage:res :image];
+    free(res);
     return image;
 }
 @end
