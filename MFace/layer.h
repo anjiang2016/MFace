@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)free;
 -(float)sum:(float*)buff :(int)bufflen;
 -(void)norm:(float*)buff :(int)bufflen :(int)kernel;
+-(void)min_max_norm:(float*)buff :(int)bufflen :(int)norm_len;
 -(void)divice_max:(float*)buff :(int)bufflen;
 -(void)load_weights:(float *)farray :(NSDictionary *)dict;
 -(void)l2_norm:(float*)buff :(int)bufflen;

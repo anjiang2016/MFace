@@ -17,8 +17,12 @@
 -(Bn * )init:(int)channel{
     self.weight = malloc(sizeof(float)*channel);
     self.bias = malloc(sizeof(float)*channel);
+    self.running_mean = malloc(sizeof(float)*channel);
+    self.running_var = malloc(sizeof(float)*channel);
     [self random_set:self.weight :channel];
     [self random_set:self.bias :channel];
+    [self random_set:self.running_mean :channel];
+    [self random_set:self.running_var :channel];
     return self;
 }
 -(void)load_weights:(float *)farray :(NSDictionary *)dict{

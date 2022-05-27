@@ -41,6 +41,34 @@
         buff[i]/=sqrt(l2);
     }
 }
+-(float )max:(float*)buff :(int)bufflen{
+    float maxv= buff[0];
+    for(int i=1;i<bufflen;i++){
+        if(maxv<buff[i]){
+            maxv=buff[i];
+        }
+    }
+    return maxv;
+}
+-(float )min:(float*)buff :(int)bufflen{
+    float minv= buff[0];
+    for(int i=1;i<bufflen;i++){
+        if(minv>buff[i]){
+            minv=buff[i];
+        }
+    }
+    return minv;
+}
+-(void)min_max_norm:(float*)buff :(int)bufflen :(int)norm_len{
+    //int norm_len=kernel*kernel;
+    for(int j=0;j<bufflen/norm_len;j++){
+        float maxv = [self max:buff+j*norm_len :norm_len];
+        float minv = [self min:buff+j*norm_len :norm_len];
+        for(int i=0;i<norm_len;i++){
+            buff[i+j*norm_len]=(buff[i+j*norm_len]-minv)/(maxv-minv);
+        }
+    }
+}
 -(float)sum:(float*)buff :(int)bufflen{
     float sum = 0;
     for(int i=0;i<bufflen;i++){

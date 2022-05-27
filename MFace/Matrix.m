@@ -7,6 +7,7 @@
 
 #import "Matrix.h"
 #import "ImageProcess.h"
+#import "Layer.h"
 
 @implementation Matrix
 @synthesize buff;
@@ -78,11 +79,20 @@
         
     }
 }
-
+-(void)shape{
+    NSLog(@"(%d,%d,%d)",channel,width,height);
+}
 -(Matrix*)reshape{
+    [self shape];
+    //本函数将图片所有通道的图片排列到第一个通道上
+    //排列前需要将每个通道的图片归一化一下
+    // 归一化使用base layer层的 :-(void)norm:(float*)buff :(int)bufflen :(int)norm_len{
+    [[Layer new] min_max_norm:buff :width*height*channel :width*height];
     int channel_sqrt = (int)(sqrt(channel)-0.01)+1;
-    float * buff1 = malloc(sizeof(float)*channel*width*height);
+    float * buff1 = malloc(sizeof(float)*channel_sqrt*channel_sqrt*width*height);
+    //将每个通道的数据赋值到新矩阵tmp的第一个通道内
     Matrix * tmp = [[Matrix new] init:buff1:width*channel_sqrt:height*channel_sqrt:1];
+    [tmp shape];
     for(int c=0;c<channel;c++){
         for(int h=0;h<height;h++){
             for(int w=0;w<width;w++){
@@ -92,10 +102,20 @@
                 //float value = (c+1.0)/3.0;
                 float value = [self descartes:w :h :c];
                 [tmp descartes_set:value :w+col*width :h+row*height :0];
-                [tmp descartes_set:0 :w+col*width :h+(row+1)*height :0];
             }
         }
     }
+    // 将超出部分设置为0
+    for(int c=channel;c<channel_sqrt*channel_sqrt;c++){
+        for(int h=0;h<height;h++){
+            for(int w=0;w<width;w++){
+                int row = c/channel_sqrt;
+                int col = c%channel_sqrt;
+                [tmp descartes_set:1.0 :w+col*width :h+row*height :0];
+            }
+        }
+    }
+    
     //free(self.buff);
     return tmp;
 }

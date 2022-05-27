@@ -220,6 +220,8 @@
 - (Matrix *)torch_passlayer:(Matrix * )input{
     //(Matrix *) torch_forward:(Matrix *)input
     //return input;
+    //Matrix* y = [input reshape];
+    
     Matrix * x=nil;
     x = [self.conv1 torch_forward:input];
     Matrix * weight = [[Matrix new ] init:self.conv1._filter:7:7:64*3];
@@ -229,7 +231,7 @@
     [x print:0:1:0:5:0:5];
     [x print:63:64:125:128:125:128];
 
-    Matrix *y= [x reshape];
+    //Matrix *y= [x reshape];
     x = [self.bn1 torch_forward:x];
     weight = [[Matrix new ] init:self.bn1.weight:1:1:64];
     [weight print:0:64:0:1:0:1];
@@ -253,10 +255,16 @@
     
     x= [layer1 torch_forward:x];
     //x = [self.layer1 torch_forw￼ard:x];
-    //Matrix *y= [input reshape];
+    Matrix *y= [x reshape];
+    /*
     x = [self.layer2 torch_forward:x];
+    //Matrix *y= [x reshape];
+    
     x = [self.layer3 torch_forward:x];
+    Matrix *y= [x reshape];
+    
     x = [self.layer4 torch_forward:x];
+    //Matrix *y= [x reshape];
     
     x=[[AvgPooling new] torch_forward:x :1];
     [x print:0:5:0:1:0:1];
@@ -279,6 +287,7 @@
           @"faceID" : x,
        @"conv1" : y
    };
+   */
     return y;
 }
 -(NSString*)load_pth:(NSString *)model_path
