@@ -25,8 +25,8 @@
     //net.conv1._filter=farray+[dict[@"model.conv1.weight"] intValue];
     weight=farray+[dict[[NSString stringWithFormat:@"%@.weight",scope]] intValue];
     bias=farray+[dict[[NSString stringWithFormat:@"%@.bias",scope]] intValue];
-    running_var=farray[[ dict[[NSString stringWithFormat:@"%@.running_var",scope]] intValue] ];
-    running_mean=farray[[ dict[[NSString stringWithFormat:@"%@.running_mean",scope]] intValue] ];
+    running_var=farray+ [ dict[[NSString stringWithFormat:@"%@.running_var",scope]] intValue];
+    running_mean=farray+[ dict[[NSString stringWithFormat:@"%@.running_mean",scope]] intValue];
 }
 -(Bn * )torch_bn:(int)bn_channel :(NSString*)in_scope :(int)index{
     //scope = [NSString stringWithFormat:@"%@.bn%d",in_scope,index];
@@ -37,12 +37,14 @@
     }
     return [self init:bn_channel];
 }
+//https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html#torch.nn.BatchNorm2d
 -(Matrix * )torch_forward:(Matrix *)input{
     for(int c=0;c<input.channel;c++){
         for(int i=0;i<input.width*input.height;i++)
         {
             float tmp=input.buff[i+c*input.width*input.width];
-            input.buff[i+c*input.width*input.width]=tmp*self.weight[c]+self.bias[c];
+            tmp =(tmp-running_mean[c])/sqrt(running_var[c]);
+            input.buff[i+c*input.width*input.width]=tmp*weight[c]+bias[c];
         }
     }
     return input;

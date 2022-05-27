@@ -9,6 +9,12 @@
 #import "Conv.h"
 #import "Pooling.h"
 #import "RELU.h"
+#import "model.h"
+#import "MaxPooling.h"
+#import "Layers.h"
+#import "AvgPooling.h"
+#import "Layer.h"
+#import "Scale.h"
 
 @implementation Net
 @synthesize _conv_layer1;
@@ -32,6 +38,7 @@
 @synthesize  scope;
 @synthesize  model_weight;
 @synthesize  model_dict;
+@synthesize  middle_result;
 
 -(Net *)init{
     
@@ -145,7 +152,7 @@
     const int imageHeight = image.size.height;
     size_t      bytesPerRow = imageWidth * 4;
     uint32_t* rgbIntBuf = (uint32_t*)malloc(bytesPerRow * imageHeight);
-    uint32_t* res = (uint32_t*)malloc(bytesPerRow * imageHeight);
+    
     
     // UIImage 2 uint32 image
     ImageProcess * p = [ImageProcess new];
@@ -157,8 +164,9 @@
     int pixNumber = (uint32_t)imageWidth*(uint32_t)imageHeight;
     float* rgbFloatBuf = (float*)malloc(pixNumber*in_channel*sizeof(float));
     [p U2F_3 :rgbIntBuf :pixNumber :in_channel :rgbFloatBuf];
-    Matrix * input = [[Matrix alloc] init:rgbFloatBuf :imageWidth :imageHeight :in_channel];
-    
+    //float * rgbFloatBuf1 = (float*)malloc(256*256*3*sizeof(float));
+    //rgbFloatBuf1= [[model new] pth2fload:rgbFloatBuf1:[NSString stringWithFormat:@"anc_img.txt"]];
+    Matrix * input = [[Matrix alloc] init:rgbFloatBuf :256 :256 :3];
     
     // forward the net
     //Matrix * result = [self passlayer:input];
@@ -166,12 +174,13 @@
     
     // show result
     // float 2 RGBA
-    int outWidth=result.width;
-    int outHeight=result.height;
-    [p F2U_channel:res :outWidth*outHeight :result.buff :0];
+    int out_width=result.width;
+    int out_height=result.height;
+    uint32_t* res = (uint32_t*)malloc(4*out_width*out_height);
+    [p F2U_channel:res :out_width*out_height :result.buff :0];
     
     // 如果模型有对图片大小操作，则需要将显示模版也相应变小
-    CGSize smallsize = CGSizeMake(outWidth, outHeight);
+    CGSize smallsize = CGSizeMake(out_width, out_height);
     image=[p scaleToSize:image:smallsize];
     
     // change the uint_32 array to UIImage for show
@@ -199,13 +208,13 @@
 -(Net *)torch_init{
     self.scope=[NSString stringWithFormat:@"model"];
     //torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups
-    self.conv1 =[[Conv new] torch_Conv2d:3:64:7:1:3:0:1:scope:1];
+    self.conv1 =[[Conv new] torch_Conv2d:3:64:7:2:3:0:1:scope:1];
     self.bn1 = [[Bn new] torch_bn:64:scope:1];
     self.layer1 = [[Layers new] torch_layers:64:64:scope:1];
     self.layer2 = [[Layers new] torch_layers:64:128:scope:2];
     self.layer3 = [[Layers new] torch_layers:128:256:scope:3];
     self.layer4 = [[Layers new] torch_layers:256:512:scope:4];
-    self.fc = [[Fc new] torch_fc:512*1*1:128:scope:1];
+    self.fc = [[Fc new] torch_fc:512:128:scope:1];
     return self;
 }
 - (Matrix *)torch_passlayer:(Matrix * )input{
@@ -213,14 +222,64 @@
     //return input;
     Matrix * x=nil;
     x = [self.conv1 torch_forward:input];
+    Matrix * weight = [[Matrix new ] init:self.conv1._filter:7:7:64*3];
+    [weight print:0:1:0:7:0:7];
+    [weight print:1:2:0:7:0:7];
+    [weight print:2:3:0:7:0:7];
+    [x print:0:1:0:5:0:5];
+    [x print:63:64:125:128:125:128];
+
+    Matrix *y= [x reshape];
     x = [self.bn1 torch_forward:x];
-    x = [self.layer1 torch_forward:x];
+    weight = [[Matrix new ] init:self.bn1.weight:1:1:64];
+    [weight print:0:64:0:1:0:1];
+    weight = [[Matrix new ] init:self.bn1.bias:1:1:64];
+    [weight print:0:64:0:1:0:1];
+    weight = [[Matrix new ] init:self.bn1.running_mean:1:1:64];
+    [weight print:0:64:0:1:0:1];
+    weight = [[Matrix new ] init:self.bn1.running_var:1:1:64];
+    [weight print:0:64:0:1:0:1];
+    [x print:0:1:0:5:0:5];
+    [x print:63:64:125:128:125:128];
+    
+    x=[[RELU new] torch_forward:x];
+    [x print:0:1:0:5:0:5];
+    [x print:63:64:125:128:125:128];
+    
+    //torch_forward:(Matrix *) input :(int)kernel :(int)padding :(int)stride
+    x=[[MaxPooling new] torch_forward:x :3 :1 :2];
+    [x print:0:1:0:5:0:5];
+    [x print:63:64:59:64:59:64];
+    
+    x= [layer1 torch_forward:x];
+    //x = [self.layer1 torch_forw￼ard:x];
+    //Matrix *y= [input reshape];
     x = [self.layer2 torch_forward:x];
     x = [self.layer3 torch_forward:x];
     x = [self.layer4 torch_forward:x];
-    /*x = [self.fc torch_forward:x];
-    */
-    return x;
+    
+    x=[[AvgPooling new] torch_forward:x :1];
+    [x print:0:5:0:1:0:1];
+    
+    x = [self.fc torch_forward:x];
+    weight = [[Matrix new ] init:self.fc._filter :512:128:1];
+    [weight print:0:1:0:5:0:5];
+    weight = [[Matrix new ] init:self.fc._bias :1:1:128];
+    [weight print:0:1:0:1:0:128];
+    [[Layer new] l2_norm:x.buff :x.width*x.height*x.channel];
+    [x print:0:10:0:1:0:1];
+    [x print:x.channel-10:x.channel:0:1:0:1];
+    x=[[Scale new] torch_forward:x :10.0];
+    [x print:0:10:0:1:0:1];
+    [x print:x.channel-10:x.channel:0:1:0:1];
+    x.width=x.channel;
+    x.channel=1;
+    [x print];
+    middle_result=@{
+          @"faceID" : x,
+       @"conv1" : y
+   };
+    return y;
 }
 -(NSString*)load_pth:(NSString *)model_path
 {

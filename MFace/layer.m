@@ -17,6 +17,11 @@
         buff[i]=random()/65536.0/65536.0;
     }
 }
+-(void)zero_set:(float*)buff :(int)bufflen{
+    for(int i=0;i<bufflen;i++){
+        buff[i]=0.0;
+    }
+}
 -(void)divice_max:(float*)buff :(int)bufflen{
     float max = 0;
     for(int i=0;i<bufflen;i++){
@@ -25,6 +30,15 @@
     }
     for(int i=0;i<bufflen;i++){
         buff[i]/=max;
+    }
+}
+-(void)l2_norm:(float*)buff :(int)bufflen{
+    float l2= 0;
+    for(int i=0;i<bufflen;i++){
+        l2+=buff[i]*buff[i];
+    }
+    for(int i=0;i<bufflen;i++){
+        buff[i]/=sqrt(l2);
     }
 }
 -(float)sum:(float*)buff :(int)bufflen{

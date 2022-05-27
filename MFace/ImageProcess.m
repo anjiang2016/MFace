@@ -119,7 +119,15 @@
         uint8_t* ptr = (uint8_t*)pCurPtr;
         uint8_t temp=0;
         float channel_value = fptr[0+channel*pixelNum];
-        temp = (uint8_t)(channel_value*255.0f);
+        if(channel_value<0){
+            channel_value=0.0;
+            
+        }
+        if(channel_value>255){
+            channel_value=1.0;
+            
+        }
+        temp = (uint8_t)(channel_value*255);
         ptr[3] =temp;//red;
         ptr[2] =temp;//green;
         ptr[1] =temp;//blue;
@@ -353,7 +361,97 @@
     }
 }
 
-
+-(void)torch_conv2d:(float*)filter :(int)kernel :(int)padding :(int)stride :(float*)bias :(float*)input :(int)in_width :(int)in_height :(int)in_channel :(float*)output :(int)out_channel{
+    int out_width = (in_width-kernel+2*padding)/stride+1;
+    int out_height = (in_height-kernel+2*padding)/stride+1;
+    int radus = kernel/2;
+    for(int oc=0;oc<out_channel;oc++){
+      for(int ohi=0;ohi<out_height;ohi++){
+        for(int owi=0;owi<out_width;owi++ ){
+            //[owi ohi]
+            output[(out_width*out_height)*oc+out_width*ohi+owi]=bias[oc];
+            for(int ic=0;ic<in_channel;ic++){
+              for(int j=-radus;j<=radus;j++){
+                for(int i=-radus;i<=radus;i++){
+                    //[i,j]
+                    int ihi=stride*ohi+radus-padding+j;
+                    int iwi=stride*owi+radus-padding+i;
+                    float input_tmp =input[(in_width*in_height)*ic+in_width*ihi+iwi];
+                    if(ihi<0 || iwi<0 || ihi>=in_height || iwi>=in_width){input_tmp=0;}
+                    
+                    output[(out_width*out_height)*oc+out_width*ohi+owi]+=filter[(kernel*kernel*in_channel)*oc+(kernel*kernel)*ic+kernel*(radus+j)+(radus+i)]*input_tmp;
+                }
+              }
+            }
+        }
+      }
+    }
+    
+}
+-(void)torch_max_pooling:(int)kernel :(int)padding :(int)stride :(float*)input :(int)in_width :(int)in_height :(int)in_channel :(float*)output{
+    int out_width = (in_width-kernel+2*padding)/stride+1;
+    int out_height = (in_height-kernel+2*padding)/stride+1;
+    int radus = kernel/2;
+    int out_channel = in_channel;
+    for(int oc=0;oc<out_channel;oc++){
+      for(int ohi=0;ohi<out_height;ohi++){
+        for(int owi=0;owi<out_width;owi++ ){
+            //[owi ohi]
+            //output[(out_width*out_height)*oc+out_width*ohi+owi]=bias[oc];
+            int start_flag=1;
+            //for(int ic=0;ic<in_channel;ic++){
+              for(int j=-radus;j<=radus;j++){
+                for(int i=-radus;i<=radus;i++){
+                    //[i,j]
+                    int ihi=stride*ohi+radus-padding+j;
+                    int iwi=stride*owi+radus-padding+i;
+                    float input_tmp =input[(in_width*in_height)*oc+in_width*ihi+iwi];
+                    if(ihi<0 || iwi<0 || ihi>=in_height || iwi>=in_width){input_tmp=0;}
+                    if(start_flag){
+                        output[(out_width*out_height)*oc+out_width*ohi+owi]=input_tmp;
+                        start_flag=0;
+                    }else{
+                        if(output[(out_width*out_height)*oc+out_width*ohi+owi]<input_tmp)
+                            output[(out_width*out_height)*oc+out_width*ohi+owi]=input_tmp;
+                    }
+                }
+              }
+            //}
+        }
+      }
+    }
+    
+}
+-(void)torch_avg_pooling:(int)kernel :(int)padding :(int)stride :(float*)input :(int)in_width :(int)in_height :(int)in_channel :(float*)output{
+    int out_width = (in_width-kernel+2*padding)/stride+1;
+    int out_height = (in_height-kernel+2*padding)/stride+1;
+    int radus = kernel/2;
+    int out_channel = in_channel;
+    for(int oc=0;oc<out_channel;oc++){
+      for(int ohi=0;ohi<out_height;ohi++){
+        for(int owi=0;owi<out_width;owi++ ){
+            //[owi ohi]
+            output[(out_width*out_height)*oc+out_width*ohi+owi]=0;
+            int pix_num=0;
+            //for(int ic=0;ic<in_channel;ic++){
+              for(int j=-radus;j<=radus-1;j++){
+                for(int i=-radus;i<=radus-1;i++){
+                    //[i,j]
+                    int ihi=stride*ohi+radus-padding+j;
+                    int iwi=stride*owi+radus-padding+i;
+                    float input_tmp =input[(in_width*in_height)*oc+in_width*ihi+iwi];
+                    if(ihi<0 || iwi<0 || ihi>=in_height || iwi>=in_width){input_tmp=0;}
+                    output[(out_width*out_height)*oc+out_width*ohi+owi]+=input_tmp;
+                    pix_num++;
+                }
+              }
+            //}
+            output[(out_width*out_height)*oc+out_width*ohi+owi]/=pix_num;
+        }
+      }
+    }
+    
+}
 // relu 激活函数
 -(float)relu:(float)fv{
     return (fv>0)?fv:0;

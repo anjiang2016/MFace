@@ -42,12 +42,14 @@
     for(int oc=0;oc<self._out_channel;oc++){
         self._output.buff[oc]=0;
         for(int ic=0;ic<self._in_channel;ic++){
-            self._output.buff[oc]+=input.buff[ic]*self._filter[ic+oc*self._in_channel];
+            self._output.buff[oc]+=input.buff[ic]*self._filter[oc*self._in_channel + ic];
         }
         self._output.buff[oc]+=self._bias[oc];
         
     }
-    [self divice_max:self._output.buff:self._out_channel];
+    [self._output print:0:5:0:1:0:1];
+    //[self l2_norm:self._output.buff:self._out_channel];
+    //[self._output print:0:5:0:1:0:1];
     return self._output;
 }
 -(void)free{

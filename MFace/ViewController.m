@@ -103,7 +103,7 @@
     [self calulateImageFileSize:self.image];
     ImageProcess *p = [ImageProcess new];
     //resize
-    CGSize smallsize = CGSizeMake(200, 200);
+    CGSize smallsize = CGSizeMake(256, 256);
     self.image=[p scaleToSize:self.image :smallsize];
     
     // init model

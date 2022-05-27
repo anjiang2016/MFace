@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 //-(NSString*)getModel:(float*)farray;
 //-(NSString*)getModel :(float*)farray :(NSString *)model_path :(Net *)net;
 -(NSString*)getModel :(float*)farray :(NSString *)model_path :(Net *)net;
--(void)pth2array :(NSArray*)array :(NSString *)model_path;
+-(NSArray*)pth2array :(NSArray*)array :(NSString *)model_path;
+-(float * )pth2fload :(float *)img :(NSString *)model_path;
 @end
 
 NS_ASSUME_NONNULL_END

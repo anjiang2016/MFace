@@ -38,8 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString * scope;
 @property float * model_weight;
 @property NSDictionary * model_dict;
-
-
+@property NSDictionary * middle_result;
 
 
 -(Net *)init;
@@ -48,7 +47,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(Matrix * )passlayer:(Matrix *)input;
 -(NSString*)load_pth:(NSString *)model_path;
 -(void)load_weights;
+- (Matrix *)torch_passlayer:(Matrix * )input;
 -(void)free;
+
 @end
 
 NS_ASSUME_NONNULL_END

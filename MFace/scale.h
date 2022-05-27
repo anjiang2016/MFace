@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Scale : Layer
+- (Matrix *) torch_forward:(Matrix* )input :(float)scale;
 @property float _scale;
 @end
 

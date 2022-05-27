@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Bn : Layer
 @property float * weight;
 @property float *bias;
-@property float running_mean;
-@property float running_var;
+@property float *running_mean;
+@property float *running_var;
 @property int num_batches_tracked;
 @property NSString* scope;
 -(Bn *)torch_bn:(int)bn_channel :(NSString *)in_scope :(int)index;

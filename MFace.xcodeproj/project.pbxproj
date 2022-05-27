@@ -41,6 +41,11 @@
 		678463A0283E15AB00B212A8 /* MFaceUITests1LaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6784639F283E15AB00B212A8 /* MFaceUITests1LaunchTests.m */; };
 		678463AD283E167800B212A8 /* MFaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 678463AC283E167800B212A8 /* MFaceTests.m */; };
 		678463B5283E20D800B212A8 /* Downsample.m in Sources */ = {isa = PBXBuildFile; fileRef = 678463B4283E20D800B212A8 /* Downsample.m */; };
+		678463B7283F091A00B212A8 /* convTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 678463B6283F091900B212A8 /* convTests.m */; };
+		678463BB283F6EF600B212A8 /* anc_img.txt in Resources */ = {isa = PBXBuildFile; fileRef = 678463BA283F6EF600B212A8 /* anc_img.txt */; };
+		678463BD283F70F900B212A8 /* loadtxtTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 678463BC283F70F900B212A8 /* loadtxtTests.m */; };
+		678463C0283F980C00B212A8 /* MaxPooling.m in Sources */ = {isa = PBXBuildFile; fileRef = 678463BF283F980C00B212A8 /* MaxPooling.m */; };
+		678463C3283FB16F00B212A8 /* AvgPooling.m in Sources */ = {isa = PBXBuildFile; fileRef = 678463C2283FB16F00B212A8 /* AvgPooling.m */; };
 		67853C08255E5D40003DEA3A /* FileOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C07255E5D40003DEA3A /* FileOperate.m */; };
 		67853C0C255E8B10003DEA3A /* model.m in Sources */ = {isa = PBXBuildFile; fileRef = 67853C0B255E8B10003DEA3A /* model.m */; };
 /* End PBXBuildFile section */
@@ -117,6 +122,13 @@
 		678463AC283E167800B212A8 /* MFaceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFaceTests.m; sourceTree = "<group>"; };
 		678463B3283E20D800B212A8 /* Downsample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downsample.h; sourceTree = "<group>"; };
 		678463B4283E20D800B212A8 /* Downsample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downsample.m; sourceTree = "<group>"; };
+		678463B6283F091900B212A8 /* convTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = convTests.m; sourceTree = "<group>"; };
+		678463BA283F6EF600B212A8 /* anc_img.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = anc_img.txt; sourceTree = "<group>"; };
+		678463BC283F70F900B212A8 /* loadtxtTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = loadtxtTests.m; sourceTree = "<group>"; };
+		678463BE283F980C00B212A8 /* MaxPooling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaxPooling.h; sourceTree = "<group>"; };
+		678463BF283F980C00B212A8 /* MaxPooling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaxPooling.m; sourceTree = "<group>"; };
+		678463C1283FB16F00B212A8 /* AvgPooling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvgPooling.h; sourceTree = "<group>"; };
+		678463C2283FB16F00B212A8 /* AvgPooling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvgPooling.m; sourceTree = "<group>"; };
 		67853C06255E5D40003DEA3A /* FileOperate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileOperate.h; sourceTree = "<group>"; };
 		67853C07255E5D40003DEA3A /* FileOperate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileOperate.m; sourceTree = "<group>"; };
 		67853C0A255E8B10003DEA3A /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
@@ -183,6 +195,7 @@
 		67631F02255BA68D000E36F9 /* MFace */ = {
 			isa = PBXGroup;
 			children = (
+				678463BA283F6EF600B212A8 /* anc_img.txt */,
 				678462F7283BB01800B212A8 /* Layer.h */,
 				678462F5283BB01800B212A8 /* Layer.m */,
 				678462F6283BB01800B212A8 /* RELU.h */,
@@ -229,6 +242,10 @@
 				67846316283DD3B100B212A8 /* Layers.m */,
 				678463B3283E20D800B212A8 /* Downsample.h */,
 				678463B4283E20D800B212A8 /* Downsample.m */,
+				678463BE283F980C00B212A8 /* MaxPooling.h */,
+				678463BF283F980C00B212A8 /* MaxPooling.m */,
+				678463C1283FB16F00B212A8 /* AvgPooling.h */,
+				678463C2283FB16F00B212A8 /* AvgPooling.m */,
 			);
 			path = MFace;
 			sourceTree = "<group>";
@@ -262,6 +279,8 @@
 		678463AB283E167800B212A8 /* MFaceTests */ = {
 			isa = PBXGroup;
 			children = (
+				678463BC283F70F900B212A8 /* loadtxtTests.m */,
+				678463B6283F091900B212A8 /* convTests.m */,
 				678463AC283E167800B212A8 /* MFaceTests.m */,
 			);
 			path = MFaceTests;
@@ -397,6 +416,7 @@
 				67631F10255BA68F000E36F9 /* Assets.xcassets in Resources */,
 				67631F0E255BA68D000E36F9 /* Main.storyboard in Resources */,
 				6784630E283D188900B212A8 /* load_save_pth.py in Resources */,
+				678463BB283F6EF600B212A8 /* anc_img.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +449,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67846314283DD34100B212A8 /* Fc.m in Sources */,
+				678463C0283F980C00B212A8 /* MaxPooling.m in Sources */,
 				678462FD283BB5FF00B212A8 /* Pooling.m in Sources */,
 				67631F53255C0C98000E36F9 /* ImageProcess.m in Sources */,
 				67846300283BB8DD00B212A8 /* Matrix.m in Sources */,
@@ -440,6 +461,7 @@
 				67853C0C255E8B10003DEA3A /* model.m in Sources */,
 				678462F9283BB01800B212A8 /* Scale.m in Sources */,
 				678462F8283BB01800B212A8 /* RELU.m in Sources */,
+				678463C3283FB16F00B212A8 /* AvgPooling.m in Sources */,
 				678462FA283BB01800B212A8 /* Layer.m in Sources */,
 				678463B5283E20D800B212A8 /* Downsample.m in Sources */,
 				67853C08255E5D40003DEA3A /* FileOperate.m in Sources */,
@@ -477,7 +499,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				678463BD283F70F900B212A8 /* loadtxtTests.m in Sources */,
 				678463AD283E167800B212A8 /* MFaceTests.m in Sources */,
+				678463B7283F091A00B212A8 /* convTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

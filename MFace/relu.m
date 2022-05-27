@@ -21,4 +21,15 @@
         }
     }
 }
+- (Matrix *) torch_forward:(Matrix *) input{
+    int i=0;
+    int input_len=input.width*input.height*input.channel;
+    for(i=0;i<input_len;i++){
+        if(input.buff[i]<0){
+            input.buff[i]=0;
+        }
+    }
+    return input;
+}
+
 @end

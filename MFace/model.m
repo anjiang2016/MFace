@@ -71,8 +71,8 @@
     
     net.bn1.weight =  farray + [dict[@"model.bn1.weigth"] intValue];
     net.bn1.bias =  farray + [dict[@"model.bn1.bias"] intValue];
-    net.bn1.running_mean =farray[[dict[@"model.bn1.running_mean"] intValue]];
-    net.bn1.running_var =farray[[dict[@"model.bn1.running_var"] intValue]];
+    net.bn1.running_mean =farray+[dict[@"model.bn1.running_mean"] intValue];
+    net.bn1.running_var =farray+[dict[@"model.bn1.running_var"] intValue];
     
     net.layer1.b0.conv1._filter=farray+[dict[@"model.layer1.b0.conv1.weight"] intValue];
     
@@ -93,7 +93,7 @@
     */
     return path;
 }
--(void)pth2array :(NSArray*)array :(NSString *)model_path
+-(NSArray *)pth2array :(NSArray*)array :(NSString *)model_path
 {
     //模型文件的路径
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"w2.pth" ofType:nil];
@@ -105,5 +105,23 @@
                                               encoding:NSUTF8StringEncoding
                                                  error:&error]
                     componentsSeparatedByString:@" "]; // 分割符为空格
+    return array;
+}
+-(float * )pth2fload :(float *)img :(NSString *)model_path
+{
+    //模型文件的路径
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"w2.pth" ofType:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:model_path ofType:nil];
+    NSLog(@"path = %@,%s", path,__FILE__);
+    NSError *error;
+    //读取file文件并把内容根据换行符分割后赋值给NSArray
+    NSArray *array = [[NSString stringWithContentsOfFile:path
+                                              encoding:NSUTF8StringEncoding
+                                                 error:&error]
+                    componentsSeparatedByString:@" "]; // 分割符为空格
+    for(int i=0;i<[array count];i++){
+        img[i]=[[array objectAtIndex:i] floatValue];
+    }
+    return img;
 }
 @end

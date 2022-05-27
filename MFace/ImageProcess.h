@@ -48,6 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) conv2:(float*)filter :(float)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
 - (void) conv4:(float*)filter :(float*)bias :(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
+- (void) torch_conv2d:(float*)filter :(int)kernel :(int)padding :(int)stride :(float*)bias :(float*)input :(int)in_width :(int)in_height :(int)in_channel :(float*)output :(int)out_channel;
+-(void)torch_max_pooling:(int)kernel :(int)padding :(int)stride :(float*)input :(int)in_width :(int)in_height :(int)in_channel :(float*)output;
+-(void)torch_avg_pooling:(int)kernel :(int)padding :(int)stride :(float*)input :(int)in_width :(int)in_height :(int)in_channel :(float*)output;
 -(void)pooling:(float*)arr :(float*)res :(int)filterW :(int)filterH :(int)arrW :(int)arrH :(int)in_channel :(int)out_channel;
 
 
