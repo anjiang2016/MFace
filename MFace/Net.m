@@ -223,7 +223,7 @@
     //Matrix* y = [input reshape];
     
     Matrix * x=nil;
-    x = [self.conv1 torch_forward:input];
+    x = [self.conv1 torch_forward_gpu:input];
     Matrix * weight = [[Matrix new ] init:self.conv1._filter:7:7:64*3];
     [weight print:0:1:0:7:0:7];
     [weight print:1:2:0:7:0:7];
@@ -256,12 +256,11 @@
     x= [layer1 torch_forward:x];
     //x = [self.layer1 torch_forw￼ard:x];
     Matrix *y= [x reshape];
-    /*
     x = [self.layer2 torch_forward:x];
     //Matrix *y= [x reshape];
     
     x = [self.layer3 torch_forward:x];
-    Matrix *y= [x reshape];
+    //Matrix *y= [x reshape];
     
     x = [self.layer4 torch_forward:x];
     //Matrix *y= [x reshape];
@@ -287,7 +286,6 @@
           @"faceID" : x,
        @"conv1" : y
    };
-   */
     return y;
 }
 -(NSString*)load_pth:(NSString *)model_path

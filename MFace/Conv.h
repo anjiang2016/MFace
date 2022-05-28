@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)load_weights:(float *)farray :(NSDictionary *)dict;
 -(Conv *) torch_Conv2d:(int)inChannel :(int)outChannel :(int)kernel_size :(int)stride :(int)padding :(int)dilation :(int)groups :(NSString *)scope :(int)index;
 -(Matrix *) torch_forward:(Matrix *)input;
+-(Matrix *) torch_forward_gpu:(Matrix *)input;
 @end
 
 NS_ASSUME_NONNULL_END

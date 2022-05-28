@@ -41,14 +41,14 @@
 -(Matrix *)torch_forward:(Matrix *)input{
     Matrix * x;
     Matrix * identity=input;
-    x=[self.conv1 torch_forward:input];
+    x=[self.conv1 torch_forward_gpu:input];
     x=[self.bn1 torch_forward:x];
     x=[[RELU new] torch_forward:x];
     
     [x print:0:1:0:5:0:5];
     [x print:x.channel-1:x.channel:x.width-5:x.width:x.height-5:x.height];
     
-    x=[self.conv2 torch_forward:x];
+    x=[self.conv2 torch_forward_gpu:x];
     x=[self.bn2 torch_forward:x];
     if(input.channel != x.channel){
         identity=[downsample1 torch_forward:input];

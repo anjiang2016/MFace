@@ -13,6 +13,9 @@
 #import "model.h"
 #import "Scale.h"
 #import "Net.h"
+#import <Metal/Metal.h>
+#import "MetalConver.h"
+
 
 //@interface ViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @interface ViewController ()
@@ -215,6 +218,23 @@
     _net = [[Net new] torch_init];
     [_net load_weights];
     
+    // GPU
+    @autoreleasepool {
+        
+    id<MTLDevice> device = MTLCreateSystemDefaultDevice();
+    MetalConver* conv2d = [[MetalConver alloc] initWithDevice:device];
+    [conv2d prepareData];
+    uint64_t start_time = mach_continuous_time();
+    [conv2d sendComputeCommand];
+    uint64_t running_time = mach_continuous_time()-start_time;
+    // 将时间差转换为秒
+    mach_timebase_info_data_t timebase;
+    mach_timebase_info(&timebase);
+    double second_diff = (double)running_time*(double)timebase.numer/(double)timebase.denom/1e9;
+    
+    NSLog(@"running_time:%f",second_diff);
+    
+    }
 }
 
 - (BOOL) isCameraAvailable{
